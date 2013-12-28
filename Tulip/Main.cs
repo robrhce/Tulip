@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using GUtil;
 
+using CommsLib.Util;
+using Tulip.Lib;
+
 namespace Tulip
 {
     public partial class Main : Form
@@ -21,68 +24,43 @@ namespace Tulip
         IMaster master;
         IMasterScan classScan;
 
+        Lib.Manager _manager;
+        Tulip.TulipEntities TDS;
 
         public Main()
         {
             InitializeComponent();
 
+            //TextBoxTextWriter tx = new TextBoxTextWriter(txtLog, System.Threading.Thread.CurrentThread);
+            //Console.SetOut(tx);
+            
+            
+             TDS = new TulipEntities();
 
-
-            Tulip.TulipEntities TDS = new TulipEntities();
-
-            var Outstations = from os in TDS.Outstations
-                              select os;
-
-            var Channels = from os in TDS.Channels
-                           select os;
-
-            TextBoxTextWriter tx = new TextBoxTextWriter(txtLog, System.Threading.Thread.CurrentThread);
-            Console.SetOut(tx);
-
-            foreach (var OS1 in Outstations)
-            {
-                //txtLog.AppendText(OS1.Id + " - " + OS1.Name + " - " + OS1.Description + Environment.NewLine);
-
-                var FirstChannel = from fc in TDS.OutstationChannelMappings
-                                   from fd in TDS.Channels
-                                   where fc.OutstationID == fd.Id
-                                   select fc;// new {OCM = fc, cc = fd };
-
-                var fc1 = FirstChannel.First().Channel;
-
-
-                Console.WriteLine(OS1.Id + " - " + OS1.Name + " - " + OS1.Description + Environment.NewLine);
-                Console.WriteLine("Channel: " + fc1.Name + " - " + fc1.ConnectionString);
-
-
-
-            }
-
-
-
-
-
+            
             IDNP3Manager mgr = DNP3ManagerFactory.CreateManager();
-            mgr.AddLogHandler(PrintingLogAdapter.Instance); //this is optional
-            var channel = mgr.AddTCPClient("client", LogLevel.Info, TimeSpan.FromSeconds(5), "127.0.0.1", 8888);
-            SerialSettings ss = new SerialSettings("com8", 9600, 8, 1, Parity.NONE, FlowControl.NONE);
+            _manager = new Lib.Manager(mgr);
+            
+            StringBuilderLogHandler SBLH = (StringBuilderLogHandler) StringBuilderLogHandler.Instance;
+            SBLH.SB = _manager.Log;
 
-            //var channel = mgr.AddSerial("SER0", LogLevel.Info, TimeSpan.FromSeconds(5), ss);
+            mgr.AddLogHandler(SBLH); //this is optional
+            
 
+            
+
+
+
+
+
+
+            //refresh_channels2();
+
+            // TODO: check if unsolicited messages are read if the master is disabled
             //optionally, add a listener for the channel state
-            channel.AddStateListener(state => Console.WriteLine("Client state: " + state));
+            //TODO 
 
-            var config = new MasterStackConfig();
-            config.master.integrityPeriod = TimeSpan.FromSeconds(-1);
-            config.master.taskRetryPeriod = TimeSpan.FromSeconds(60);
-            config.link.localAddr = 30001;
-            config.link.remoteAddr = 17;
-            config.link.timeout = TimeSpan.FromSeconds(10);
-            config.link.useConfirms = true; //setup your stack configuration here.
-            config.app.rspTimeout = TimeSpan.FromSeconds(50);
-
-            master = channel.AddMaster("master", LogLevel.Interpret, PrintingMeasurementHandler.Instance, config);
-
+            
             /*
             var config2 = new MasterStackConfig();
 
@@ -95,46 +73,22 @@ namespace Tulip
             */
 
             //optionally, add a listener for the stack state
-            master.AddStateListener(state => Console.WriteLine("Master state: " + state));
-
-            var classMask = PointClassHelpers.GetMask(PointClass.PC_CLASS_1, PointClass.PC_CLASS_2, PointClass.PC_CLASS_3);
-            classScan = master.AddClassScan(classMask, TimeSpan.FromSeconds(-1), TimeSpan.FromSeconds(-1));
+            
             //var integrityScan = master.GetIntegrityScan();
 
-            master.Enable(); // enable communications
+            
             //master2.Enable();
 
-            Console.WriteLine("Enter an index to send a command");
+            //Console.WriteLine("Enter an index to send a command");
 
             // Test sequence
 
 
+            //frmChannelSummary fps = new frmChannelSummary();
+            //fps.Show();
 
-
-            /*
-            while (true)
-            {
-                switch (Console.ReadLine())
-                {
-                    case "c":
-                        var crob = new ControlRelayOutputBlock(ControlCode.PULSE, 1, 100, 100);
-                        var future = master.GetCommandProcessor().SelectAndOperate(crob, 0);
-                        future.Listen((result) => Console.WriteLine("Result: " + result));
-                        break;
-                    case "i":
-                        integrityScan.Demand();
-                        break;
-                    case "e":
-                        classScan.Demand();
-                        break;
-                    case "x":
-                        return 0;
-                    default:
-                        break;
-                }
-            } 
-             * */
-
+            frmOutstationSummary fos = new frmOutstationSummary();
+            fos.Show();
 
         }
 
@@ -169,6 +123,58 @@ namespace Tulip
         private void button2_Click(object sender, EventArgs e)
         {
             classScan.Demand();
+        }
+
+
+        private void refresh_channels(ChannelWrapper updated)
+        {
+            this.BeginInvoke(new Action(refresh_channels2));
+        }
+
+        private void refresh_channels2()
+        {
+            List<ChannelWrapper> cws = _manager.Channels;
+
+            tblChannelStatus_Model.Rows.Clear();
+            foreach (ChannelWrapper C in cws)
+            {
+
+                tblChannelStatus_Model.Rows.Add(new XPTable.Models.Row(new[] { "", C.Model.Id.ToString(), C.Model.Name, C.state.ToString() }));
+            }
+        }
+
+        private void refresh_outstations(OutstationWrapper updated)
+        {
+            
+        }
+
+        private void toolStripButton4_Click(object sender, EventArgs e)
+        {
+            frmLog log = new frmLog(_manager.Log.ToString());
+            log.Show();
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            // TODO: dodge
+            /* 1 - create the channels collection */
+
+            var Channels = from os in TDS.Channels
+                           select os;
+
+            var Outstations = from os in TDS.Outstations
+                              select os;
+
+            List<Channel> CC = Channels.ToList();
+
+            // TODO: DONT START STUFF UNTIL WINDOW HANDLE HAS BEEN CREATED OR WE WILL LOCK SHIT UP
+
+
+            _manager.AddChannels(Channels.ToList());
+            _manager.OnChannelStateChange += this.refresh_channels;
+
+            _manager.AddOutstations(Outstations.ToList());
+            _manager.OnOutstationStateChange += this.refresh_outstations;
         }
     }
 }

@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TulipModel.Store" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Channels">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ConnectionString" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="TTL" Type="int" Nullable="false" />
+          <Property Name="Multidrop" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OutstationChannelMapping">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="ChannelID" Type="int" Nullable="false" />
+          <Property Name="OutstationID" Type="int" Nullable="false" />
+          <Property Name="Priority" Type="int" Nullable="false" />
+          <Property Name="Enabled" Type="int" Nullable="false" />
+          <Property Name="LastRxTime" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Outstations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="Address" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="TulipModelStoreContainer">
+          <EntitySet Name="Channels" EntityType="Self.Channels" store:Type="Tables" />
+          <EntitySet Name="OutstationChannelMapping" EntityType="Self.OutstationChannelMapping" store:Type="Tables" />
+          <EntitySet Name="Outstations" EntityType="Self.Outstations" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TulipModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TulipEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Outstations" EntityType="TulipModel.Outstation" />
+          <EntitySet Name="Channels" EntityType="TulipModel.Channel" />
+          <EntitySet Name="OutstationChannelMappings" EntityType="TulipModel.OutstationChannelMapping" />
+          <AssociationSet Name="OutstationOutstationChannelMapping" Association="TulipModel.OutstationOutstationChannelMapping">
+            <End Role="Outstation" EntitySet="Outstations" />
+            <End Role="OutstationChannelMapping" EntitySet="OutstationChannelMappings" />
+          </AssociationSet>
+          <AssociationSet Name="ChannelOutstationChannelMapping" Association="TulipModel.ChannelOutstationChannelMapping">
+            <End Role="Channel" EntitySet="Channels" />
+            <End Role="OutstationChannelMapping" EntitySet="OutstationChannelMappings" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Outstation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="512" Unicode="true" FixedLength="false" />
+          <Property Name="Address" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="OutstationChannelMappings" Relationship="TulipModel.OutstationOutstationChannelMapping" FromRole="Outstation" ToRole="OutstationChannelMapping" />
+        </EntityType>
+        <EntityType Name="Channel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Type" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ConnectionString" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="TTL" Nullable="false" />
+          <Property Type="Int32" Name="Multidrop" Nullable="false" />
+          <NavigationProperty Name="OutstationChannelMappings" Relationship="TulipModel.ChannelOutstationChannelMapping" FromRole="Channel" ToRole="OutstationChannelMapping" />
+        </EntityType>
+        <EntityType Name="OutstationChannelMapping">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="ChannelID" Nullable="false" />
+          <Property Type="Int32" Name="OutstationID" Nullable="false" />
+          <Property Type="Int32" Name="Priority" Nullable="false" />
+          <Property Type="Int32" Name="Enabled" Nullable="false" />
+          <Property Type="DateTime" Name="LastRxTime" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="Active" Nullable="false" />
+          <NavigationProperty Name="Outstation" Relationship="TulipModel.OutstationOutstationChannelMapping" FromRole="OutstationChannelMapping" ToRole="Outstation" />
+          <NavigationProperty Name="Channel" Relationship="TulipModel.ChannelOutstationChannelMapping" FromRole="OutstationChannelMapping" ToRole="Channel" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <Association Name="OutstationOutstationChannelMapping">
+          <End Type="TulipModel.Outstation" Role="Outstation" Multiplicity="1" />
+          <End Type="TulipModel.OutstationChannelMapping" Role="OutstationChannelMapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Outstation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OutstationChannelMapping">
+              <PropertyRef Name="OutstationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ChannelOutstationChannelMapping">
+          <End Type="TulipModel.Channel" Role="Channel" Multiplicity="1" />
+          <End Type="TulipModel.OutstationChannelMapping" Role="OutstationChannelMapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Channel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OutstationChannelMapping">
+              <PropertyRef Name="ChannelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TulipModelStoreContainer" CdmEntityContainer="TulipEntities">
+          <EntitySetMapping Name="Outstations">
+            <EntityTypeMapping TypeName="TulipModel.Outstation">
+              <MappingFragment StoreEntitySet="Outstations">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Channels">
+            <EntityTypeMapping TypeName="TulipModel.Channel">
+              <MappingFragment StoreEntitySet="Channels">
+                <ScalarProperty Name="Multidrop" ColumnName="Multidrop" />
+                <ScalarProperty Name="TTL" ColumnName="TTL" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ConnectionString" ColumnName="ConnectionString" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OutstationChannelMappings">
+            <EntityTypeMapping TypeName="TulipModel.OutstationChannelMapping">
+              <MappingFragment StoreEntitySet="OutstationChannelMapping">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="LastRxTime" ColumnName="LastRxTime" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="OutstationID" ColumnName="OutstationID" />
+                <ScalarProperty Name="ChannelID" ColumnName="ChannelID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
