@@ -37,10 +37,31 @@
           <Property Name="Description" Type="nvarchar" MaxLength="512" Nullable="false" />
           <Property Name="Address" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Points">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OutstationID" Type="int" Nullable="false" />
+          <Property Name="PointIndex" Type="int" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="ValueDigital" Type="int" />
+          <Property Name="ValueInteger" Type="int" />
+          <Property Name="ValueFloat" Type="real" />
+          <Property Name="ControlDigital" Type="int" />
+          <Property Name="ControlInteger" Type="int" />
+          <Property Name="ControlFloat" Type="real" />
+          <Property Name="LastUpdate" Type="datetime" />
+          <Property Name="LastControl" Type="datetime" />
+          <Property Name="LastMeasurement" Type="datetime" />
+          <Property Name="Quality" Type="int" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
         <EntityContainer Name="TulipModelStoreContainer">
           <EntitySet Name="Channels" EntityType="Self.Channels" store:Type="Tables" />
           <EntitySet Name="OutstationChannelMapping" EntityType="Self.OutstationChannelMapping" store:Type="Tables" />
           <EntitySet Name="Outstations" EntityType="Self.Outstations" store:Type="Tables" />
+          <EntitySet Name="Points" EntityType="Self.Points" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -58,6 +79,11 @@
             <End Role="Channel" EntitySet="Channels" />
             <End Role="OutstationChannelMapping" EntitySet="OutstationChannelMappings" />
           </AssociationSet>
+          <EntitySet Name="Points" EntityType="TulipModel.Point" />
+          <AssociationSet Name="OutstationPoint" Association="TulipModel.OutstationPoint">
+            <End Role="Outstation" EntitySet="Outstations" />
+            <End Role="Point" EntitySet="Points" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Outstation">
           <Key>
@@ -68,6 +94,7 @@
           <Property Name="Description" Type="String" Nullable="false" MaxLength="512" Unicode="true" FixedLength="false" />
           <Property Name="Address" Type="Int32" Nullable="false" />
           <NavigationProperty Name="OutstationChannelMappings" Relationship="TulipModel.OutstationOutstationChannelMapping" FromRole="Outstation" ToRole="OutstationChannelMapping" />
+          <NavigationProperty Name="Points" Relationship="TulipModel.OutstationPoint" FromRole="Outstation" ToRole="Point" />
         </EntityType>
         <EntityType Name="Channel">
           <Key>
@@ -119,6 +146,52 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Point">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OutstationID" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="TulipModel.POINT_TYPE" Nullable="false" />
+          <Property Name="ValueDigital" Type="Int32" />
+          <Property Name="ValueInteger" Type="Int32" />
+          <Property Name="ValueFloat" Type="Single" />
+          <Property Name="ControlDigital" Type="Int32" />
+          <Property Name="ControlInteger" Type="Int32" />
+          <Property Name="ControlFloat" Type="Single" />
+          <Property Name="LastUpdate" Type="DateTime" Precision="3" />
+          <Property Name="LastControl" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="TulipModel.POINT_STATUS" Nullable="false" />
+          <NavigationProperty Name="Outstation" Relationship="TulipModel.OutstationPoint" FromRole="Point" ToRole="Outstation" />
+          <Property Name="PointIndex" Type="Int32" Nullable="false" />
+          <Property Name="LastMeasurement" Type="DateTime" Precision="3" />
+          <Property Name="Quality" Type="Int32" />
+        </EntityType>
+        <Association Name="OutstationPoint">
+          <End Type="TulipModel.Outstation" Role="Outstation" Multiplicity="1" />
+          <End Type="TulipModel.Point" Role="Point" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Outstation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Point">
+              <PropertyRef Name="OutstationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EnumType Name="POINT_TYPE">
+          <Member Name="DIGITAL_STATUS" Value="0" />
+          <Member Name="DIGITAL_CONTROL" Value="1" />
+          <Member Name="ANALOG_STATUS" Value="2" />
+          <Member Name="ANALOG_CONTROL" Value="3" />
+        </EnumType>
+        <EnumType Name="POINT_STATUS">
+          <Member Name="UNINITIALISED" Value="0" />
+          <Member Name="DETECTED" Value="1" />
+          <Member Name="OK" Value="2" />
+          <Member Name="UPDATED" Value="3" />
+          <Member Name="MISSING" Value="4" />
+        </EnumType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -157,6 +230,27 @@
                 <ScalarProperty Name="Priority" ColumnName="Priority" />
                 <ScalarProperty Name="OutstationID" ColumnName="OutstationID" />
                 <ScalarProperty Name="ChannelID" ColumnName="ChannelID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Points">
+            <EntityTypeMapping TypeName="TulipModel.Point">
+              <MappingFragment StoreEntitySet="Points">
+                <ScalarProperty Name="Quality" ColumnName="Quality" />
+                <ScalarProperty Name="LastMeasurement" ColumnName="LastMeasurement" />
+                <ScalarProperty Name="PointIndex" ColumnName="PointIndex" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="LastControl" ColumnName="LastControl" />
+                <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+                <ScalarProperty Name="ControlFloat" ColumnName="ControlFloat" />
+                <ScalarProperty Name="ControlInteger" ColumnName="ControlInteger" />
+                <ScalarProperty Name="ControlDigital" ColumnName="ControlDigital" />
+                <ScalarProperty Name="ValueFloat" ColumnName="ValueFloat" />
+                <ScalarProperty Name="ValueInteger" ColumnName="ValueInteger" />
+                <ScalarProperty Name="ValueDigital" ColumnName="ValueDigital" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="OutstationID" ColumnName="OutstationID" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

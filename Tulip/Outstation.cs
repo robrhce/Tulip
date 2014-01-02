@@ -17,6 +17,7 @@ namespace Tulip
         public Outstation()
         {
             this.OutstationChannelMappings = new ObservableListSource<OutstationChannelMapping>();
+            this.Points = new ObservableListSource<Point>();
         }
     
         public int Id { get; set; }
@@ -25,5 +26,6 @@ namespace Tulip
         public int Address { get; set; }
     
         public virtual ObservableListSource<OutstationChannelMapping> OutstationChannelMappings { get; set; }
+        public virtual ObservableListSource<Point> Points { get; set; }
     }
 }

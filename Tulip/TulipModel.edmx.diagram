@@ -10,6 +10,8 @@
         <EntityTypeShape EntityType="TulipModel.OutstationChannelMapping" Width="1.5" PointX="7.625" PointY="2.125" />
         <AssociationConnector Association="TulipModel.OutstationOutstationChannelMapping" />
         <AssociationConnector Association="TulipModel.ChannelOutstationChannelMapping" />
+        <EntityTypeShape EntityType="TulipModel.Point" Width="1.5" PointX="7.625" PointY="5.25" />
+        <AssociationConnector Association="TulipModel.OutstationPoint" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

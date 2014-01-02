@@ -28,5 +28,6 @@ namespace Tulip
         public virtual DbSet<Outstation> Outstations { get; set; }
         public virtual DbSet<Channel> Channels { get; set; }
         public virtual DbSet<OutstationChannelMapping> OutstationChannelMappings { get; set; }
+        public virtual DbSet<Point> Points { get; set; }
     }
 }

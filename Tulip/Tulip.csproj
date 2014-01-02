@@ -93,6 +93,18 @@
     <Compile Include="Channel.cs">
       <DependentUpon>TulipModelGen.tt</DependentUpon>
     </Compile>
+    <Compile Include="frmPointConfiguration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPointConfiguration.Designer.cs">
+      <DependentUpon>frmPointConfiguration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPointSummary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPointSummary.Designer.cs">
+      <DependentUpon>frmPointSummary.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmLog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -129,6 +141,15 @@
     <Compile Include="OutstationChannelMapping.cs">
       <DependentUpon>TulipModelGen.tt</DependentUpon>
     </Compile>
+    <Compile Include="Point.cs">
+      <DependentUpon>TulipModelGen.tt</DependentUpon>
+    </Compile>
+    <Compile Include="POINT_STATUS.cs">
+      <DependentUpon>TulipModelGen.tt</DependentUpon>
+    </Compile>
+    <Compile Include="POINT_TYPE.cs">
+      <DependentUpon>TulipModelGen.tt</DependentUpon>
+    </Compile>
     <Compile Include="TulipModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -147,6 +168,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TulipModelGen.tt</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="frmPointConfiguration.resx">
+      <DependentUpon>frmPointConfiguration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPointSummary.resx">
+      <DependentUpon>frmPointSummary.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmLog.resx">
       <DependentUpon>frmLog.cs</DependentUpon>
     </EmbeddedResource>
@@ -176,6 +203,7 @@
     <None Include="Properties\DataSources\Channel.datasource" />
     <None Include="Properties\DataSources\Outstation.datasource" />
     <None Include="Properties\DataSources\OutstationChannelMapping.datasource" />
+    <None Include="Properties\DataSources\Point.datasource" />
     <None Include="TulipModel.edmx.diagram">
       <DependentUpon>TulipModel.edmx</DependentUpon>
     </None>

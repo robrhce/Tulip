@@ -13,6 +13,7 @@ namespace Tulip.Lib
 
         public Action<ChannelWrapper> OnChannelStateChange;
         public Action<OutstationWrapper> OnOutstationStateChange;
+        public Action OnOutstationMeasurementReceived;
 
         public IDNP3Manager DNP3Manager;
 
@@ -101,10 +102,10 @@ namespace Tulip.Lib
 
                     // Select the first (and should be only) channel that matches the mapping
                     ChannelWrapper cw = null;
-                    if ((cw = Channels.First(x => x.Model.Id == m.ChannelID)) != null)
+                    if ((cw = Channels.SingleOrDefault(x => x.Model.Id == m.ChannelID)) != null)
                     {
                         var config = new MasterStackConfig();
-                        config.master.integrityPeriod = TimeSpan.FromSeconds(-1);
+                        config.master.integrityPeriod = TimeSpan.FromSeconds(60);
                         config.master.taskRetryPeriod = TimeSpan.FromSeconds(60);
                         config.link.localAddr = 30001;
                         config.link.remoteAddr = Convert.ToUInt16(o.Address);
@@ -112,14 +113,16 @@ namespace Tulip.Lib
                         config.link.useConfirms = true; //setup your stack configuration here.
                         config.app.rspTimeout = TimeSpan.FromSeconds(50);
 
-                        var master = cw.Channel.AddMaster("master", LogLevel.Interpret, PrintingMeasurementHandler.Instance, config);
-                        OutstationWrapper OW = new OutstationWrapper(o, master);
-                        OW.OnStateChanged += this.OutstationStateChanged;
-
+                        OutstationWrapper OW = new OutstationWrapper(o);
+                        var master = cw.Channel.AddMaster("master", LogLevel.Debug, OW, config);
+                        OW.Master = master;
+                        OW.OnStateChanged += this.Callback_OutstationStateChanged;
+                        OW.OnMeasurementsReceived += this.Callback_OutstationMeasurementReceived;
+                        
                         master.AddStateListener(new Action<StackState>(OW.StateChanged));
 
                         var classMask = PointClassHelpers.GetMask(PointClass.PC_CLASS_1, PointClass.PC_CLASS_2, PointClass.PC_CLASS_3);
-                        var classScan = master.AddClassScan(classMask, TimeSpan.FromSeconds(-1), TimeSpan.FromSeconds(-1));
+                        var classScan = master.AddClassScan(classMask, TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(60));
 
                         Outstations.Add(OW);
 
@@ -127,16 +130,21 @@ namespace Tulip.Lib
             
                     }
                 }
-
-
             }
         }
 
-        public void OutstationStateChanged()
+        
+        public void Callback_OutstationStateChanged()
         {
             // TODO: FIX
             if (OnOutstationStateChange != null)
                 OnOutstationStateChange(null);
+        }
+
+        public void Callback_OutstationMeasurementReceived()
+        {
+            if (OnOutstationMeasurementReceived != null)
+                OnOutstationMeasurementReceived();
         }
 
     }

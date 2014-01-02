@@ -47,14 +47,14 @@ namespace Tulip
             // by the Remove call while it is being enumerated. 
             // In most other situations you can do LINQ to Objects directly 
             // against the Local property without using ToList first.
-            /*
-            foreach (var product in _context.Products.Local.ToList())
+            
+            foreach (var ocm in _context.OutstationChannelMappings.Local.ToList())
             {
-                if (product.Category == null)
+                if (ocm.Channel == null || ocm.Outstation == null)
                 {
-                    _context.Products.Remove(product);
+                    _context.OutstationChannelMappings.Remove(ocm);
                 }
-            }*/
+            }
 
             // Save the changes to the database.
             this._context.SaveChanges();

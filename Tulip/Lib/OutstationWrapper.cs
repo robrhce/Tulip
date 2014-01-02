@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Tulip.Lib
 {
-    public class OutstationWrapper
+    public class OutstationWrapper : IMeasurementHandler
     {
         public IMaster Master;
         public Outstation Model;
@@ -15,11 +15,21 @@ namespace Tulip.Lib
         public StackState state;
 
         public Action OnStateChanged;
+        public Action OnMeasurementsReceived;
+
+        // TODO: poor implementation
+        public List<IndexedValue<Analog>> NewAnalogs = new List<IndexedValue<Analog>>();
+        public List<IndexedValue<Binary>> NewBinaries = new List<IndexedValue<Binary>>();
 
         public OutstationWrapper(Outstation Model, IMaster Master)
         {
             this.Model = Model;
             this.Master = Master;
+        }
+
+        public OutstationWrapper(Outstation Model)
+        {
+            this.Model = Model;
         }
 
         public void StateChanged(StackState state)
@@ -28,6 +38,30 @@ namespace Tulip.Lib
 
             if (OnStateChanged != null)
                 OnStateChanged();
+        }
+
+        public void Load(IMeasurementUpdate update)
+        {
+            // TODO: this is not very async
+            foreach (IndexedValue<Binary> v in update.BinaryUpdates)
+            {
+                NewBinaries.Add(v);
+                //Console.WriteLine("value: " + v.value.value + " index: " + v.index);
+            }
+            foreach (IndexedValue<Analog> v in update.AnalogUpdates)
+            {
+                NewAnalogs.Add(v);
+                //Console.WriteLine("value: " + v.value.value + " index: " + v.index);               
+            }
+            
+            if (OnMeasurementsReceived != null)
+                OnMeasurementsReceived();
+            /*
+             foreach (var v in update.CounterUpdates) Console.WriteLine("value: " + v.value.value + " index: " + v.index);
+             foreach (var v in update.ControlStatusUpdates) Console.WriteLine("value: " + v.value.value + " index: " + v.index);
+             foreach (var v in update.SetpointStatusUpdates) Console.WriteLine("value: " + v.value.value + " index: " + v.index);
+             foreach (var v in update.OctetStringUpdates) Console.WriteLine("value: " + v.value.AsString() + " index: " + v.index);
+             */
         }
     }
 }

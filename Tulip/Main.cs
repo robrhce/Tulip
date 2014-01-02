@@ -25,7 +25,7 @@ namespace Tulip
         IMasterScan classScan;
 
         Lib.Manager _manager;
-        Tulip.TulipEntities TDS;
+        Tulip.TulipEntities _context;
 
         public Main()
         {
@@ -35,7 +35,7 @@ namespace Tulip
             //Console.SetOut(tx);
             
             
-             TDS = new TulipEntities();
+             _context = new TulipEntities();
 
             
             IDNP3Manager mgr = DNP3ManagerFactory.CreateManager();
@@ -46,49 +46,7 @@ namespace Tulip
 
             mgr.AddLogHandler(SBLH); //this is optional
             
-
-            
-
-
-
-
-
-
-            //refresh_channels2();
-
-            // TODO: check if unsolicited messages are read if the master is disabled
-            //optionally, add a listener for the channel state
-            //TODO 
-
-            
-            /*
-            var config2 = new MasterStackConfig();
-
-            config2.master.integrityPeriod = TimeSpan.FromSeconds(60);
-            config2.link.localAddr = 3;
-            config2.link.remoteAddr = 191;
-            config2.link.useConfirms = true; //setup your stack configuration here.
-            var master2 = channel.AddMaster("master", LogLevel.Interpret, PrintingMeasurementHandler.Instance, config2);
-
-            */
-
-            //optionally, add a listener for the stack state
-            
-            //var integrityScan = master.GetIntegrityScan();
-
-            
-            //master2.Enable();
-
-            //Console.WriteLine("Enter an index to send a command");
-
-            // Test sequence
-
-
-            //frmChannelSummary fps = new frmChannelSummary();
-            //fps.Show();
-
-            frmOutstationSummary fos = new frmOutstationSummary();
-            fos.Show();
+             
 
         }
 
@@ -145,7 +103,19 @@ namespace Tulip
 
         private void refresh_outstations(OutstationWrapper updated)
         {
-            
+            this.BeginInvoke(new Action(refresh_outstations2));
+        }
+
+        private void refresh_outstations2()//OutstationWrapper updated)
+        {
+            List<OutstationWrapper> cws = _manager.Outstations;
+
+            tblOutstationStatus_Model.Rows.Clear();
+            foreach (OutstationWrapper C in cws)
+            {
+
+                tblOutstationStatus_Model.Rows.Add(new XPTable.Models.Row(new[] { "", C.Model.Id.ToString(), C.Model.Name, C.state.ToString() }));
+            }
         }
 
         private void toolStripButton4_Click(object sender, EventArgs e)
@@ -159,10 +129,10 @@ namespace Tulip
             // TODO: dodge
             /* 1 - create the channels collection */
 
-            var Channels = from os in TDS.Channels
+            var Channels = from os in _context.Channels
                            select os;
 
-            var Outstations = from os in TDS.Outstations
+            var Outstations = from os in _context.Outstations
                               select os;
 
             List<Channel> CC = Channels.ToList();
@@ -175,6 +145,146 @@ namespace Tulip
 
             _manager.AddOutstations(Outstations.ToList());
             _manager.OnOutstationStateChange += this.refresh_outstations;
+
+            _manager.OnOutstationMeasurementReceived += this.new_measurement_handler;
+
+            refresh_outstations2();
+        }
+
+        private void toolStripButton5_Click(object sender, EventArgs e)
+        {
+            frmPointSummary frmPS = new frmPointSummary(_context);
+            frmPS.Show();
+        }
+
+        private void new_measurement_handler()
+        {
+            DateTime update_time = DateTime.UtcNow;
+            foreach (OutstationWrapper ow in _manager.Outstations)
+            {
+                if (ow.NewAnalogs.Count > 0)
+                {
+                    foreach (IndexedValue<Analog> ana in ow.NewAnalogs)
+                    {
+                        update_analog(ow, ana, update_time);
+                    }
+                    ow.NewAnalogs.Clear();
+                }
+                if (ow.NewBinaries.Count > 0)
+                {
+                    foreach (IndexedValue<Binary> bin in ow.NewBinaries)
+                    {
+                        update_binaries(ow, bin, update_time);
+                    }
+                    ow.NewBinaries.Clear();
+                }
+            }
+            _context.SaveChanges();
+        }
+
+        private void update_analog(OutstationWrapper ow, IndexedValue<Analog> ana, DateTime update_time)
+        {
+            /* Check if the point currently exists in the points table */
+            // TODO historical logging
+            Point p = _context.Points.SingleOrDefault(x => x.OutstationID == ow.Model.Id && x.PointIndex == ana.index && x.Type == POINT_TYPE.ANALOG_STATUS);
+            DateTime epoch = new DateTime(1970, 1, 1);
+            DateTime timestamp;
+
+            if (ana.value.time == epoch)
+            {
+                timestamp = update_time;
+            }
+            else
+            {
+                timestamp = ana.value.time;
+            }
+
+            if (p == null)
+            {
+                p = new Point();
+                p.OutstationID = ow.Model.Id;
+                p.Type = POINT_TYPE.ANALOG_STATUS;
+                p.PointIndex = (int) ana.index;
+                p.ValueFloat = Convert.ToSingle(ana.value.value);
+                p.Status = POINT_STATUS.DETECTED;
+                p.LastUpdate = update_time;
+                p.LastMeasurement = timestamp;
+                p.Quality = ana.value.quality;
+                _context.Points.Add(p);
+            }
+            else
+            {
+                // if a series of measurements come through, only keep the most recent
+                if (timestamp > p.LastMeasurement)
+                {
+                    p.ValueFloat = Convert.ToSingle(ana.value.value);
+                    //p.Status = POINT_STATUS.
+                    p.LastMeasurement = timestamp;
+                    p.Quality = ana.value.quality;
+                    p.LastUpdate = update_time;
+                }
+            }
+            // (cw = Channels.First(x => x.Model.Id == m.ChannelID)
+            
+        }
+
+        private void update_binaries(OutstationWrapper ow, IndexedValue<Binary> bin, DateTime update_time)
+        {
+            /* Check if the point currently exists in the points table */
+            // TODO historical logging
+            Point p = _context.Points.SingleOrDefault(x => x.OutstationID == ow.Model.Id && x.PointIndex == bin.index && x.Type == POINT_TYPE.DIGITAL_STATUS);
+            DateTime epoch = new DateTime(1970, 1, 1);
+            DateTime timestamp;
+
+            if (bin.value.time == epoch)
+            {
+                timestamp = update_time;
+            }
+            else
+            {
+                timestamp = bin.value.time;
+            }
+
+            if (p == null)
+            {
+                p = new Point();
+                p.OutstationID = ow.Model.Id;
+                p.Type = POINT_TYPE.DIGITAL_STATUS;
+                p.PointIndex = (int)bin.index;
+                p.ValueDigital = Convert.ToInt32(bin.value.value);
+                p.Status = POINT_STATUS.DETECTED;
+                
+                p.LastUpdate = update_time;
+                p.LastMeasurement = timestamp;
+
+                
+                
+                p.Quality = bin.value.quality;
+                _context.Points.Add(p);
+            }
+            else
+            {
+                // if a series of measurements come through, only keep the most recent
+                if (timestamp > p.LastMeasurement)
+                {
+                    p.ValueDigital = Convert.ToInt32(bin.value.value);
+                    //p.Status = POINT_STATUS.
+                    p.LastMeasurement = timestamp;
+                    p.Quality = bin.value.quality;
+                    p.LastUpdate = update_time;
+                }
+            }
+            
+        }
+
+        private void channelsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new frmChannelSummary().Show();
+        }
+
+        private void outstationsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new frmOutstationSummary().Show();
         }
     }
 }
