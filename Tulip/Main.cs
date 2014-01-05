@@ -16,7 +16,7 @@ using GUtil;
 
 using CommsLib.Util;
 using Tulip.Lib;
-
+using System.Data.Entity;
 namespace Tulip
 {
     public partial class Main : Form
@@ -45,8 +45,10 @@ namespace Tulip
             SBLH.SB = _manager.Log;
 
             mgr.AddLogHandler(SBLH); //this is optional
-            
-             
+
+            _context.Channels.Load();
+            _context.Outstations.Load();
+            _context.Points.Load();
 
         }
 
@@ -142,13 +144,15 @@ namespace Tulip
 
             _manager.AddChannels(Channels.ToList());
             _manager.OnChannelStateChange += this.refresh_channels;
+            refresh_channels2();
 
             _manager.AddOutstations(Outstations.ToList());
             _manager.OnOutstationStateChange += this.refresh_outstations;
+            refresh_outstations2();
 
             _manager.OnOutstationMeasurementReceived += this.new_measurement_handler;
 
-            refresh_outstations2();
+            
         }
 
         private void toolStripButton5_Click(object sender, EventArgs e)
@@ -205,7 +209,7 @@ namespace Tulip
                 p.OutstationID = ow.Model.Id;
                 p.Type = POINT_TYPE.ANALOG_STATUS;
                 p.PointIndex = (int) ana.index;
-                p.ValueFloat = Convert.ToSingle(ana.value.value);
+                p.ValueAnalog = Convert.ToSingle(ana.value.value);
                 p.Status = POINT_STATUS.DETECTED;
                 p.LastUpdate = update_time;
                 p.LastMeasurement = timestamp;
@@ -217,7 +221,7 @@ namespace Tulip
                 // if a series of measurements come through, only keep the most recent
                 if (timestamp > p.LastMeasurement)
                 {
-                    p.ValueFloat = Convert.ToSingle(ana.value.value);
+                    p.ValueAnalog = Convert.ToSingle(ana.value.value);
                     //p.Status = POINT_STATUS.
                     p.LastMeasurement = timestamp;
                     p.Quality = ana.value.quality;
@@ -285,6 +289,11 @@ namespace Tulip
         private void outstationsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new frmOutstationSummary().Show();
+        }
+
+        private void pointsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new frmPointConfiguration(_context).Show();
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Tulip
             //_context.Points.Load();
             this.outstationBindingSource.DataSource = Context.Outstations.Local.ToBindingList();
             //this.pointBindingSource.DataSource = _context.Points.Local.ToBindingList();
-            
+
         }
 
         private void tmrRefreshPoints_Tick(object sender, EventArgs e)
@@ -35,6 +35,48 @@ namespace Tulip
             this.pointDataGridView.SuspendLayout();
             this.pointDataGridView.Refresh();
             this.pointDataGridView.ResumeLayout();
+        }
+
+        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+            writeControlToolStripMenuItem.Enabled = false;
+
+            if (pointDataGridView.SelectedRows.Count == 1)
+            {
+                if (pointDataGridView.SelectedRows[0].DataBoundItem is Point)
+                {
+                    Point P = (Point)pointDataGridView.SelectedRows[0].DataBoundItem;
+                    if (P.Type == POINT_TYPE.DIGITAL_CONTROL || P.Type == POINT_TYPE.ANALOG_CONTROL)
+                        writeControlToolStripMenuItem.Enabled = true;
+                }
+            }
+
+        }
+
+        private void writeControlToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (pointDataGridView.SelectedRows.Count == 1)
+            {
+                if (pointDataGridView.SelectedRows[0].DataBoundItem is Point)
+                {
+                    Point P = (Point)pointDataGridView.SelectedRows[0].DataBoundItem;
+                    if (P.Type == POINT_TYPE.DIGITAL_CONTROL || P.Type == POINT_TYPE.ANALOG_CONTROL)
+                    {
+                        frmWriteControl fwc = new frmWriteControl(P, Context);
+                        fwc.ShowDialog();
+
+                        if (fwc.ReturnValue != null)
+                        {
+                            Context.Commands.Add(fwc.ReturnValue);
+                            
+                            // TODO: Concurrency??
+
+                            Context.SaveChanges();
+                                //Context.Commands.sq
+                        }
+                    }
+                }
+            }
         }
 
     }

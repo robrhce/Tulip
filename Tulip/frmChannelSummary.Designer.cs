@@ -34,6 +34,7 @@
             this.colPoints = new XPTable.Models.ColumnModel();
             this.channelBindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
             this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
+            this.channelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
             this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
@@ -52,11 +53,11 @@
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.channelBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.Enabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.channelBindingNavigator)).BeginInit();
             this.channelBindingNavigator.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.channelDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.channelBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.channelDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // channelBindingNavigator
@@ -97,6 +98,10 @@
             this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
             this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
             this.bindingNavigatorAddNewItem.Text = "Add new";
+            // 
+            // channelBindingSource
+            // 
+            this.channelBindingSource.DataSource = typeof(Tulip.Channel);
             // 
             // bindingNavigatorCountItem
             // 
@@ -193,13 +198,15 @@
             this.dataGridViewTextBoxColumn3,
             this.dataGridViewTextBoxColumn4,
             this.dataGridViewTextBoxColumn5,
-            this.dataGridViewTextBoxColumn6});
+            this.dataGridViewTextBoxColumn6,
+            this.Enabled});
             this.channelDataGridView.DataSource = this.channelBindingSource;
             this.channelDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.channelDataGridView.Location = new System.Drawing.Point(0, 25);
             this.channelDataGridView.Name = "channelDataGridView";
             this.channelDataGridView.Size = new System.Drawing.Size(1113, 620);
             this.channelDataGridView.TabIndex = 2;
+            this.channelDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.channelDataGridView_CellContentClick);
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -237,9 +244,11 @@
             this.dataGridViewTextBoxColumn6.HeaderText = "Multidrop";
             this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
             // 
-            // channelBindingSource
+            // Enabled
             // 
-            this.channelBindingSource.DataSource = typeof(Tulip.Channel);
+            this.Enabled.DataPropertyName = "Enabled";
+            this.Enabled.HeaderText = "Enabled";
+            this.Enabled.Name = "Enabled";
             // 
             // frmChannelSummary
             // 
@@ -255,8 +264,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.channelBindingNavigator)).EndInit();
             this.channelBindingNavigator.ResumeLayout(false);
             this.channelBindingNavigator.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.channelDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.channelBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.channelDataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -287,5 +296,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Enabled;
     }
 }

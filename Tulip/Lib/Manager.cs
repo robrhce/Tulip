@@ -30,7 +30,7 @@ namespace Tulip.Lib
 
         public void AddChannels(List<Channel> channels)
         {
-            foreach (Channel c in channels)
+            foreach (Channel c in channels.Where(x => x.Enabled > 0))
             {
                 Dictionary<String, String> ConnectionOptions = StringToDictionary.Convert(c.ConnectionString);
                 // TODO: Try/catch around this to continue after hitting a bad channel
@@ -48,7 +48,7 @@ namespace Tulip.Lib
                             ChannelWrapper wr = new ChannelWrapper(c, ch);
                             wr.OnStateChanged += this.ChannelStateChanged;
                             
-                           // wr.Channel.AddStateListener(new Action<ChannelState>(wr.StateChanged));
+                            wr.Channel.AddStateListener(new Action<ChannelState>(wr.StateChanged));
 
                             Channels.Add(wr);
 

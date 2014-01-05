@@ -15,6 +15,22 @@
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="TTL" Type="int" Nullable="false" />
           <Property Name="Multidrop" Type="int" Nullable="false" />
+          <Property Name="Enabled" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Commands">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PointID" Type="int" Nullable="false" />
+          <Property Name="AnalogValue" Type="float" />
+          <Property Name="DigitalControl" Type="int" />
+          <Property Name="DigitalOnTime" Type="int" />
+          <Property Name="DigitalOffTime" Type="int" />
+          <Property Name="DigitalCount" Type="int" />
+          <Property Name="TimestampSent" Type="int" />
+          <Property Name="TimestampResponse" Type="int" />
+          <Property Name="Response" Type="int" />
         </EntityType>
         <EntityType Name="OutstationChannelMapping">
           <Key>
@@ -46,19 +62,15 @@
           <Property Name="PointIndex" Type="int" Nullable="false" />
           <Property Name="Type" Type="int" Nullable="false" />
           <Property Name="ValueDigital" Type="int" />
-          <Property Name="ValueInteger" Type="int" />
-          <Property Name="ValueFloat" Type="real" />
-          <Property Name="ControlDigital" Type="int" />
-          <Property Name="ControlInteger" Type="int" />
-          <Property Name="ControlFloat" Type="real" />
+          <Property Name="ValueAnalog" Type="real" />
           <Property Name="LastUpdate" Type="datetime" />
-          <Property Name="LastControl" Type="datetime" />
           <Property Name="LastMeasurement" Type="datetime" />
           <Property Name="Quality" Type="int" />
           <Property Name="Status" Type="int" Nullable="false" />
         </EntityType>
         <EntityContainer Name="TulipModelStoreContainer">
           <EntitySet Name="Channels" EntityType="Self.Channels" store:Type="Tables" />
+          <EntitySet Name="Commands" EntityType="Self.Commands" store:Type="Tables" />
           <EntitySet Name="OutstationChannelMapping" EntityType="Self.OutstationChannelMapping" store:Type="Tables" />
           <EntitySet Name="Outstations" EntityType="Self.Outstations" store:Type="Tables" />
           <EntitySet Name="Points" EntityType="Self.Points" store:Type="Tables" />
@@ -84,6 +96,11 @@
             <End Role="Outstation" EntitySet="Outstations" />
             <End Role="Point" EntitySet="Points" />
           </AssociationSet>
+          <EntitySet Name="Commands" EntityType="TulipModel.Command" />
+          <AssociationSet Name="PointCommand" Association="TulipModel.PointCommand">
+            <End Role="Point" EntitySet="Points" />
+            <End Role="Command" EntitySet="Commands" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Outstation">
           <Key>
@@ -107,6 +124,7 @@
           <Property Type="Int32" Name="TTL" Nullable="false" />
           <Property Type="Int32" Name="Multidrop" Nullable="false" />
           <NavigationProperty Name="OutstationChannelMappings" Relationship="TulipModel.ChannelOutstationChannelMapping" FromRole="Channel" ToRole="OutstationChannelMapping" />
+          <Property Name="Enabled" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="OutstationChannelMapping">
           <Key>
@@ -154,18 +172,14 @@
           <Property Name="OutstationID" Type="Int32" Nullable="false" />
           <Property Name="Type" Type="TulipModel.POINT_TYPE" Nullable="false" />
           <Property Name="ValueDigital" Type="Int32" />
-          <Property Name="ValueInteger" Type="Int32" />
-          <Property Name="ValueFloat" Type="Single" />
-          <Property Name="ControlDigital" Type="Int32" />
-          <Property Name="ControlInteger" Type="Int32" />
-          <Property Name="ControlFloat" Type="Single" />
           <Property Name="LastUpdate" Type="DateTime" Precision="3" />
-          <Property Name="LastControl" Type="DateTime" Precision="3" />
           <Property Name="Status" Type="TulipModel.POINT_STATUS" Nullable="false" />
           <NavigationProperty Name="Outstation" Relationship="TulipModel.OutstationPoint" FromRole="Point" ToRole="Outstation" />
           <Property Name="PointIndex" Type="Int32" Nullable="false" />
           <Property Name="LastMeasurement" Type="DateTime" Precision="3" />
           <Property Name="Quality" Type="Int32" />
+          <NavigationProperty Name="Commands" Relationship="TulipModel.PointCommand" FromRole="Point" ToRole="Command" />
+          <Property Name="ValueAnalog" Type="Single" />
         </EntityType>
         <Association Name="OutstationPoint">
           <End Type="TulipModel.Outstation" Role="Outstation" Multiplicity="1" />
@@ -192,6 +206,35 @@
           <Member Name="UPDATED" Value="3" />
           <Member Name="MISSING" Value="4" />
         </EnumType>
+        <EntityType Name="Command">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PointID" Type="Int32" Nullable="false" />
+          <Property Name="AnalogValue" Type="Double" />
+          <Property Name="DigitalControl" Type="TulipModel.ControlCode" />
+          <Property Name="DigitalOnTime" Type="Int32" />
+          <Property Name="DigitalOffTime" Type="Int32" />
+          <Property Name="DigitalCount" Type="Int32" />
+          <Property Name="TimestampSent" Type="Int32" />
+          <Property Name="TimestampResponse" Type="Int32" />
+          <Property Name="Response" Type="Int32" />
+          <NavigationProperty Name="Point" Relationship="TulipModel.PointCommand" FromRole="Command" ToRole="Point" />
+        </EntityType>
+        <Association Name="PointCommand">
+          <End Type="TulipModel.Point" Role="Point" Multiplicity="1" />
+          <End Type="TulipModel.Command" Role="Command" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Point">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Command">
+              <PropertyRef Name="PointID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EnumType Name="ControlCode" a:ExternalTypeName="DNP3.Interface.ControlCode" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" UnderlyingType="Byte" />
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -211,6 +254,7 @@
           <EntitySetMapping Name="Channels">
             <EntityTypeMapping TypeName="TulipModel.Channel">
               <MappingFragment StoreEntitySet="Channels">
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
                 <ScalarProperty Name="Multidrop" ColumnName="Multidrop" />
                 <ScalarProperty Name="TTL" ColumnName="TTL" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -236,20 +280,31 @@
           <EntitySetMapping Name="Points">
             <EntityTypeMapping TypeName="TulipModel.Point">
               <MappingFragment StoreEntitySet="Points">
+                <ScalarProperty Name="ValueAnalog" ColumnName="ValueAnalog" />
                 <ScalarProperty Name="Quality" ColumnName="Quality" />
                 <ScalarProperty Name="LastMeasurement" ColumnName="LastMeasurement" />
                 <ScalarProperty Name="PointIndex" ColumnName="PointIndex" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="LastControl" ColumnName="LastControl" />
                 <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
-                <ScalarProperty Name="ControlFloat" ColumnName="ControlFloat" />
-                <ScalarProperty Name="ControlInteger" ColumnName="ControlInteger" />
-                <ScalarProperty Name="ControlDigital" ColumnName="ControlDigital" />
-                <ScalarProperty Name="ValueFloat" ColumnName="ValueFloat" />
-                <ScalarProperty Name="ValueInteger" ColumnName="ValueInteger" />
                 <ScalarProperty Name="ValueDigital" ColumnName="ValueDigital" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="OutstationID" ColumnName="OutstationID" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Commands">
+            <EntityTypeMapping TypeName="TulipModel.Command">
+              <MappingFragment StoreEntitySet="Commands">
+                <ScalarProperty Name="Response" ColumnName="Response" />
+                <ScalarProperty Name="TimestampResponse" ColumnName="TimestampResponse" />
+                <ScalarProperty Name="TimestampSent" ColumnName="TimestampSent" />
+                <ScalarProperty Name="DigitalCount" ColumnName="DigitalCount" />
+                <ScalarProperty Name="DigitalOffTime" ColumnName="DigitalOffTime" />
+                <ScalarProperty Name="DigitalOnTime" ColumnName="DigitalOnTime" />
+                <ScalarProperty Name="DigitalControl" ColumnName="DigitalControl" />
+                <ScalarProperty Name="AnalogValue" ColumnName="AnalogValue" />
+                <ScalarProperty Name="PointID" ColumnName="PointID" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -5,11 +5,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tulip", "Tulip\Tulip.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommsLib", "..\Recon2\CommsLib\CommsLib.csproj", "{8C8B8128-D56B-44D0-B31C-5C1D9A0A90FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUtil", "..\Recon2\GUtil\GUtil.csproj", "{52BAD89A-782A-47B0-8934-005514E225FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuiLib", "..\Recon2\GUtil\GuiLib.csproj", "{52BAD89A-782A-47B0-8934-005514E225FF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XPTable", "..\..\Dropbox\Recon\Resources\XPTable-1.2.2-src\XPTable.csproj", "{1ADD2ECB-2B24-4162-8965-3EFAA9BB041E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TulipLib", "TulipLib\TulipLib.csproj", "{04FE6CE0-544D-401A-A3E4-7856BB836961}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSlave", "TestSlave\TestSlave.csproj", "{36BA0EDB-8359-49B2-8A77-F8346B7A0893}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +89,18 @@ Global
 		{04FE6CE0-544D-401A-A3E4-7856BB836961}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{04FE6CE0-544D-401A-A3E4-7856BB836961}.Release|Win32.ActiveCfg = Release|Any CPU
 		{04FE6CE0-544D-401A-A3E4-7856BB836961}.Release|x64.ActiveCfg = Release|Any CPU
+		{36BA0EDB-8359-49B2-8A77-F8346B7A0893}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36BA0EDB-8359-49B2-8A77-F8346B7A0893}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36BA0EDB-8359-49B2-8A77-F8346B7A0893}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{36BA0EDB-8359-49B2-8A77-F8346B7A0893}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{36BA0EDB-8359-49B2-8A77-F8346B7A0893}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{36BA0EDB-8359-49B2-8A77-F8346B7A0893}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{36BA0EDB-8359-49B2-8A77-F8346B7A0893}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36BA0EDB-8359-49B2-8A77-F8346B7A0893}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36BA0EDB-8359-49B2-8A77-F8346B7A0893}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{36BA0EDB-8359-49B2-8A77-F8346B7A0893}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{36BA0EDB-8359-49B2-8A77-F8346B7A0893}.Release|Win32.ActiveCfg = Release|Any CPU
+		{36BA0EDB-8359-49B2-8A77-F8346B7A0893}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -25,6 +25,7 @@ namespace Tulip
         public string Name { get; set; }
         public int TTL { get; set; }
         public int Multidrop { get; set; }
+        public int Enabled { get; set; }
     
         public virtual ObservableListSource<OutstationChannelMapping> OutstationChannelMappings { get; set; }
     }

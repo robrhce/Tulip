@@ -73,5 +73,10 @@ namespace Tulip
         {
             _context.Dispose();
         }
+
+        private void channelDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

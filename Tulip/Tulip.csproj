@@ -93,6 +93,9 @@
     <Compile Include="Channel.cs">
       <DependentUpon>TulipModelGen.tt</DependentUpon>
     </Compile>
+    <Compile Include="Command.cs">
+      <DependentUpon>TulipModelGen.tt</DependentUpon>
+    </Compile>
     <Compile Include="frmPointConfiguration.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -122,6 +125,12 @@
     </Compile>
     <Compile Include="frmChannelSummary.Designer.cs">
       <DependentUpon>frmChannelSummary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmWriteControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmWriteControl.Designer.cs">
+      <DependentUpon>frmWriteControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Lib\ChannelWrapper.cs" />
     <Compile Include="Lib\OutstationWrapper.cs" />
@@ -183,6 +192,9 @@
     <EmbeddedResource Include="frmChannelSummary.resx">
       <DependentUpon>frmChannelSummary.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmWriteControl.resx">
+      <DependentUpon>frmWriteControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
@@ -201,6 +213,7 @@
     </EntityDeploy>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\Channel.datasource" />
+    <None Include="Properties\DataSources\Command.datasource" />
     <None Include="Properties\DataSources\Outstation.datasource" />
     <None Include="Properties\DataSources\OutstationChannelMapping.datasource" />
     <None Include="Properties\DataSources\Point.datasource" />
@@ -265,9 +278,9 @@
       <Project>{8c8b8128-d56b-44d0-b31c-5c1d9a0a90ff}</Project>
       <Name>CommsLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Recon2\GUtil\GUtil.csproj">
+    <ProjectReference Include="..\..\Recon2\GUtil\GuiLib.csproj">
       <Project>{52bad89a-782a-47b0-8934-005514e225ff}</Project>
-      <Name>GUtil</Name>
+      <Name>GuiLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

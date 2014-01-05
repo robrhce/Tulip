@@ -14,22 +14,23 @@ namespace Tulip
     
     public partial class Point
     {
+        public Point()
+        {
+            this.Commands = new ObservableListSource<Command>();
+        }
+    
         public int Id { get; set; }
         public int OutstationID { get; set; }
         public POINT_TYPE Type { get; set; }
         public Nullable<int> ValueDigital { get; set; }
-        public Nullable<int> ValueInteger { get; set; }
-        public Nullable<float> ValueFloat { get; set; }
-        public Nullable<int> ControlDigital { get; set; }
-        public Nullable<int> ControlInteger { get; set; }
-        public Nullable<float> ControlFloat { get; set; }
         public Nullable<System.DateTime> LastUpdate { get; set; }
-        public Nullable<System.DateTime> LastControl { get; set; }
         public POINT_STATUS Status { get; set; }
         public int PointIndex { get; set; }
         public Nullable<System.DateTime> LastMeasurement { get; set; }
         public Nullable<int> Quality { get; set; }
+        public Nullable<float> ValueAnalog { get; set; }
     
         public virtual Outstation Outstation { get; set; }
+        public virtual ObservableListSource<Command> Commands { get; set; }
     }
 }
