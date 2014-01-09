@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using GUtil;
+using GuiLib;
 
 using CommsLib.Util;
 using Tulip.Lib;
@@ -24,7 +24,7 @@ namespace Tulip
         IMaster master;
         IMasterScan classScan;
 
-        Lib.Manager _manager;
+        public static Lib.Manager Manager;
         Tulip.TulipEntities _context;
 
         public Main()
@@ -39,10 +39,10 @@ namespace Tulip
 
             
             IDNP3Manager mgr = DNP3ManagerFactory.CreateManager();
-            _manager = new Lib.Manager(mgr);
+            Manager = new Lib.Manager(mgr);
             
             StringBuilderLogHandler SBLH = (StringBuilderLogHandler) StringBuilderLogHandler.Instance;
-            SBLH.SB = _manager.Log;
+            SBLH.SB = Manager.Log;
 
             mgr.AddLogHandler(SBLH); //this is optional
 
@@ -93,7 +93,7 @@ namespace Tulip
 
         private void refresh_channels2()
         {
-            List<ChannelWrapper> cws = _manager.Channels;
+            List<ChannelWrapper> cws = Manager.Channels;
 
             tblChannelStatus_Model.Rows.Clear();
             foreach (ChannelWrapper C in cws)
@@ -110,7 +110,7 @@ namespace Tulip
 
         private void refresh_outstations2()//OutstationWrapper updated)
         {
-            List<OutstationWrapper> cws = _manager.Outstations;
+            List<OutstationWrapper> cws = Manager.Outstations;
 
             tblOutstationStatus_Model.Rows.Clear();
             foreach (OutstationWrapper C in cws)
@@ -122,7 +122,7 @@ namespace Tulip
 
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
-            frmLog log = new frmLog(_manager.Log.ToString());
+            frmLog log = new frmLog(Manager.Log.ToString());
             log.Show();
         }
 
@@ -142,15 +142,15 @@ namespace Tulip
             // TODO: DONT START STUFF UNTIL WINDOW HANDLE HAS BEEN CREATED OR WE WILL LOCK SHIT UP
 
 
-            _manager.AddChannels(Channels.ToList());
-            _manager.OnChannelStateChange += this.refresh_channels;
+            Manager.AddChannels(Channels.ToList());
+            Manager.OnChannelStateChange += this.refresh_channels;
             refresh_channels2();
 
-            _manager.AddOutstations(Outstations.ToList());
-            _manager.OnOutstationStateChange += this.refresh_outstations;
+            Manager.AddOutstations(Outstations.ToList());
+            Manager.OnOutstationStateChange += this.refresh_outstations;
             refresh_outstations2();
 
-            _manager.OnOutstationMeasurementReceived += this.new_measurement_handler;
+            Manager.OnOutstationMeasurementReceived += this.new_measurement_handler;
 
             
         }
@@ -164,7 +164,7 @@ namespace Tulip
         private void new_measurement_handler()
         {
             DateTime update_time = DateTime.UtcNow;
-            foreach (OutstationWrapper ow in _manager.Outstations)
+            foreach (OutstationWrapper ow in Manager.Outstations)
             {
                 if (ow.NewAnalogs.Count > 0)
                 {

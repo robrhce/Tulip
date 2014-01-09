@@ -133,6 +133,7 @@
       <DependentUpon>frmWriteControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Lib\ChannelWrapper.cs" />
+    <Compile Include="Lib\CommandExt.cs" />
     <Compile Include="Lib\OutstationWrapper.cs" />
     <Compile Include="Lib\Manager.cs" />
     <Compile Include="Lib\OutstationMonitor.cs" />
@@ -278,10 +279,13 @@
       <Project>{8c8b8128-d56b-44d0-b31c-5c1d9a0a90ff}</Project>
       <Name>CommsLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Recon2\GUtil\GuiLib.csproj">
+    <ProjectReference Include="..\..\Recon2\GuiLib\GuiLib.csproj">
       <Project>{52bad89a-782a-47b0-8934-005514e225ff}</Project>
       <Name>GuiLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

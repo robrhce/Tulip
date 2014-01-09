@@ -67,12 +67,16 @@ namespace Tulip
 
                         if (fwc.ReturnValue != null)
                         {
-                            Context.Commands.Add(fwc.ReturnValue);
+                            Command newCommand = fwc.ReturnValue;
+                            P.Commands.Add(newCommand);
+                            //Context.Commands.Add(newCommand);
                             
                             // TODO: Concurrency??
 
                             Context.SaveChanges();
-                                //Context.Commands.sq
+
+                            Main.Manager.PostCommand(newCommand);
+                                
                         }
                     }
                 }

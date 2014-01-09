@@ -132,7 +132,6 @@ namespace Tulip.Lib
                 }
             }
         }
-
         
         public void Callback_OutstationStateChanged()
         {
@@ -145,6 +144,34 @@ namespace Tulip.Lib
         {
             if (OnOutstationMeasurementReceived != null)
                 OnOutstationMeasurementReceived();
+        }
+
+        public void PostCommand(Command c)
+        {
+            Outstation os = c.Point.Outstation;
+
+            OutstationWrapper ow = Outstations.Where(x => x.Model.Id == c.Point.OutstationID).SingleOrDefault();
+            if (ow != null)
+            {
+                if (ow.state == StackState.COMMS_UP)
+                {
+                    if (c.Point.Type == POINT_TYPE.ANALOG_CONTROL)
+                    {
+                        AnalogOutputFloat32 aof = c.GetAnalogOutput();
+                        var future = ow.Master.GetCommandProcessor().DirectOperate(aof, Convert.ToUInt32(c.Point.PointIndex));
+                    }
+                    else if (c.Point.Type == POINT_TYPE.DIGITAL_CONTROL)
+                    {
+                        ControlRelayOutputBlock crob = c.GetCROB();
+                        var future = ow.Master.GetCommandProcessor().DirectOperate(crob, Convert.ToUInt32(c.Point.PointIndex));
+                    }
+                        
+                }
+                else
+                {
+                    throw new InvalidOperationException("Cannot issue command, communications with outstation down (COMMS_DOWN)");
+                }
+            }
         }
 
     }
