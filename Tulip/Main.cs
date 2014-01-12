@@ -25,7 +25,7 @@ namespace Tulip
         IMasterScan classScan;
 
         public static Lib.Manager Manager;
-        Tulip.TulipEntities _context;
+        //Tulip.TulipEntities _context;
 
         public Main()
         {
@@ -35,7 +35,7 @@ namespace Tulip
             //Console.SetOut(tx);
             
             
-             _context = new TulipEntities();
+             //_context = new TulipEntities();
 
             
             IDNP3Manager mgr = DNP3ManagerFactory.CreateManager();
@@ -46,9 +46,9 @@ namespace Tulip
 
             mgr.AddLogHandler(SBLH); //this is optional
 
-            _context.Channels.Load();
-            _context.Outstations.Load();
-            _context.Points.Load();
+            Manager.TulipContext.Channels.Load();
+            Manager.TulipContext.Outstations.Load();
+            Manager.TulipContext.Points.Load();
 
         }
 
@@ -63,7 +63,7 @@ namespace Tulip
             bool State = radioButton1.Checked;
             UInt16 point = Convert.ToUInt16(textBox1.Text);
             ControlRelayOutputBlock crob;
-
+            
             if (State)
                 crob = new ControlRelayOutputBlock(ControlCode.LATCH_ON, 1, 0, 0);
             else
@@ -131,10 +131,10 @@ namespace Tulip
             // TODO: dodge
             /* 1 - create the channels collection */
 
-            var Channels = from os in _context.Channels
+            var Channels = from os in Manager.TulipContext.Channels
                            select os;
 
-            var Outstations = from os in _context.Outstations
+            var Outstations = from os in Manager.TulipContext.Outstations
                               select os;
 
             List<Channel> CC = Channels.ToList();
@@ -157,7 +157,7 @@ namespace Tulip
 
         private void toolStripButton5_Click(object sender, EventArgs e)
         {
-            frmPointSummary frmPS = new frmPointSummary(_context);
+            frmPointSummary frmPS = new frmPointSummary(Manager);
             frmPS.Show();
         }
 
@@ -183,14 +183,14 @@ namespace Tulip
                     ow.NewBinaries.Clear();
                 }
             }
-            _context.SaveChanges();
+            Manager.TulipContext.SaveChanges();
         }
 
         private void update_analog(OutstationWrapper ow, IndexedValue<Analog> ana, DateTime update_time)
         {
             /* Check if the point currently exists in the points table */
             // TODO historical logging
-            Point p = _context.Points.SingleOrDefault(x => x.OutstationID == ow.Model.Id && x.PointIndex == ana.index && x.Type == POINT_TYPE.ANALOG_STATUS);
+            Point p = Manager.TulipContext.Points.SingleOrDefault(x => x.OutstationID == ow.Model.Id && x.PointIndex == ana.index && x.Type == POINT_TYPE.ANALOG_STATUS);
             DateTime epoch = new DateTime(1970, 1, 1);
             DateTime timestamp;
 
@@ -214,7 +214,7 @@ namespace Tulip
                 p.LastUpdate = update_time;
                 p.LastMeasurement = timestamp;
                 p.Quality = ana.value.quality;
-                _context.Points.Add(p);
+                Manager.TulipContext.Points.Add(p);
             }
             else
             {
@@ -236,7 +236,7 @@ namespace Tulip
         {
             /* Check if the point currently exists in the points table */
             // TODO historical logging
-            Point p = _context.Points.SingleOrDefault(x => x.OutstationID == ow.Model.Id && x.PointIndex == bin.index && x.Type == POINT_TYPE.DIGITAL_STATUS);
+            Point p = Manager.TulipContext.Points.SingleOrDefault(x => x.OutstationID == ow.Model.Id && x.PointIndex == bin.index && x.Type == POINT_TYPE.DIGITAL_STATUS);
             DateTime epoch = new DateTime(1970, 1, 1);
             DateTime timestamp;
 
@@ -264,7 +264,7 @@ namespace Tulip
                 
                 
                 p.Quality = bin.value.quality;
-                _context.Points.Add(p);
+                Manager.TulipContext.Points.Add(p);
             }
             else
             {
@@ -293,7 +293,7 @@ namespace Tulip
 
         private void pointsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new frmPointConfiguration(_context).Show();
+            new frmPointConfiguration(Manager.TulipContext).Show();
         }
     }
 }

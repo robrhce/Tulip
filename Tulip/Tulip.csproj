@@ -96,6 +96,12 @@
     <Compile Include="Command.cs">
       <DependentUpon>TulipModelGen.tt</DependentUpon>
     </Compile>
+    <Compile Include="frmPointCommandHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPointCommandHistory.Designer.cs">
+      <DependentUpon>frmPointCommandHistory.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmPointConfiguration.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -178,6 +184,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TulipModelGen.tt</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="frmPointCommandHistory.resx">
+      <DependentUpon>frmPointCommandHistory.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmPointConfiguration.resx">
       <DependentUpon>frmPointConfiguration.cs</DependentUpon>
     </EmbeddedResource>
@@ -243,11 +252,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Tulip.sdf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

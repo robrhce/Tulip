@@ -32,13 +32,14 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPointSummary));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.outstationDataGridView = new System.Windows.Forms.DataGridView();
-            this.pointDataGridView = new System.Windows.Forms.DataGridView();
+            this.dgvOutstations = new System.Windows.Forms.DataGridView();
+            this.dgvPoints = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.demandScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fullToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeOfStateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.writeControlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.commandHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pointBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.pointsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.outstationBindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
@@ -55,32 +56,25 @@
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.outstationBindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
             this.tmrRefreshPoints = new System.Windows.Forms.Timer(this.components);
+            this.dgvPoints_colValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.outstationBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn17 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn19 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.outstationDataGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pointDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvOutstations)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPoints)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pointBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pointsBindingSource)).BeginInit();
@@ -98,76 +92,75 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.AutoScroll = true;
-            this.splitContainer1.Panel1.Controls.Add(this.outstationDataGridView);
+            this.splitContainer1.Panel1.Controls.Add(this.dgvOutstations);
             // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.AutoScroll = true;
-            this.splitContainer1.Panel2.Controls.Add(this.pointDataGridView);
+            this.splitContainer1.Panel2.Controls.Add(this.dgvPoints);
             this.splitContainer1.Size = new System.Drawing.Size(1099, 665);
             this.splitContainer1.SplitterDistance = 395;
             this.splitContainer1.TabIndex = 0;
             // 
-            // outstationDataGridView
+            // dgvOutstations
             // 
-            this.outstationDataGridView.AllowUserToAddRows = false;
-            this.outstationDataGridView.AllowUserToDeleteRows = false;
+            this.dgvOutstations.AllowUserToAddRows = false;
+            this.dgvOutstations.AllowUserToDeleteRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.outstationDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.outstationDataGridView.AutoGenerateColumns = false;
-            this.outstationDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.outstationDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvOutstations.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvOutstations.AutoGenerateColumns = false;
+            this.dgvOutstations.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvOutstations.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2,
             this.dataGridViewTextBoxColumn3,
             this.dataGridViewTextBoxColumn4});
-            this.outstationDataGridView.DataSource = this.outstationBindingSource;
-            this.outstationDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.outstationDataGridView.Location = new System.Drawing.Point(0, 0);
-            this.outstationDataGridView.Name = "outstationDataGridView";
-            this.outstationDataGridView.ReadOnly = true;
-            this.outstationDataGridView.Size = new System.Drawing.Size(395, 665);
-            this.outstationDataGridView.TabIndex = 0;
+            this.dgvOutstations.DataSource = this.outstationBindingSource;
+            this.dgvOutstations.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvOutstations.Location = new System.Drawing.Point(0, 0);
+            this.dgvOutstations.MultiSelect = false;
+            this.dgvOutstations.Name = "dgvOutstations";
+            this.dgvOutstations.ReadOnly = true;
+            this.dgvOutstations.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvOutstations.Size = new System.Drawing.Size(395, 665);
+            this.dgvOutstations.TabIndex = 0;
+            this.dgvOutstations.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.outstationDataGridView_DataBindingComplete);
             // 
-            // pointDataGridView
+            // dgvPoints
             // 
-            this.pointDataGridView.AllowUserToAddRows = false;
-            this.pointDataGridView.AllowUserToDeleteRows = false;
-            this.pointDataGridView.AutoGenerateColumns = false;
-            this.pointDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.pointDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvPoints.AllowUserToAddRows = false;
+            this.dgvPoints.AllowUserToDeleteRows = false;
+            this.dgvPoints.AutoGenerateColumns = false;
+            this.dgvPoints.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvPoints.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn5,
-            this.dataGridViewTextBoxColumn6,
-            this.dataGridViewTextBoxColumn7,
-            this.dataGridViewTextBoxColumn8,
-            this.dataGridViewTextBoxColumn9,
-            this.dataGridViewTextBoxColumn10,
-            this.dataGridViewTextBoxColumn11,
-            this.dataGridViewTextBoxColumn12,
-            this.dataGridViewTextBoxColumn13,
-            this.dataGridViewTextBoxColumn14,
-            this.dataGridViewTextBoxColumn15,
-            this.dataGridViewTextBoxColumn16,
             this.dataGridViewTextBoxColumn17,
+            this.dataGridViewTextBoxColumn7,
+            this.dgvPoints_colValue,
+            this.dataGridViewTextBoxColumn16,
+            this.dataGridViewTextBoxColumn14,
             this.dataGridViewTextBoxColumn18,
             this.dataGridViewTextBoxColumn19});
-            this.pointDataGridView.ContextMenuStrip = this.contextMenuStrip1;
-            this.pointDataGridView.DataSource = this.pointBindingSource;
-            this.pointDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pointDataGridView.Location = new System.Drawing.Point(0, 0);
-            this.pointDataGridView.Name = "pointDataGridView";
-            this.pointDataGridView.ReadOnly = true;
-            this.pointDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.pointDataGridView.Size = new System.Drawing.Size(700, 665);
-            this.pointDataGridView.TabIndex = 0;
+            this.dgvPoints.ContextMenuStrip = this.contextMenuStrip1;
+            this.dgvPoints.DataSource = this.pointBindingSource;
+            this.dgvPoints.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvPoints.Location = new System.Drawing.Point(0, 0);
+            this.dgvPoints.Name = "dgvPoints";
+            this.dgvPoints.ReadOnly = true;
+            this.dgvPoints.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvPoints.Size = new System.Drawing.Size(700, 665);
+            this.dgvPoints.TabIndex = 0;
+            this.dgvPoints.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvPoints_CellFormatting);
+            this.dgvPoints.RowValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.pointDataGridView_RowValidated);
             // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.demandScanToolStripMenuItem,
-            this.writeControlToolStripMenuItem});
+            this.writeControlToolStripMenuItem,
+            this.commandHistoryToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(155, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(173, 70);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // demandScanToolStripMenuItem
@@ -176,7 +169,7 @@
             this.fullToolStripMenuItem,
             this.changeOfStateToolStripMenuItem});
             this.demandScanToolStripMenuItem.Name = "demandScanToolStripMenuItem";
-            this.demandScanToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.demandScanToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.demandScanToolStripMenuItem.Text = "Demand Scan";
             // 
             // fullToolStripMenuItem
@@ -194,9 +187,16 @@
             // writeControlToolStripMenuItem
             // 
             this.writeControlToolStripMenuItem.Name = "writeControlToolStripMenuItem";
-            this.writeControlToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.writeControlToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.writeControlToolStripMenuItem.Text = "Write Control...";
             this.writeControlToolStripMenuItem.Click += new System.EventHandler(this.writeControlToolStripMenuItem_Click);
+            // 
+            // commandHistoryToolStripMenuItem
+            // 
+            this.commandHistoryToolStripMenuItem.Name = "commandHistoryToolStripMenuItem";
+            this.commandHistoryToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.commandHistoryToolStripMenuItem.Text = "Command History";
+            this.commandHistoryToolStripMenuItem.Click += new System.EventHandler(this.commandHistoryToolStripMenuItem_Click);
             // 
             // pointBindingSource
             // 
@@ -339,6 +339,13 @@
             this.tmrRefreshPoints.Interval = 10000;
             this.tmrRefreshPoints.Tick += new System.EventHandler(this.tmrRefreshPoints_Tick);
             // 
+            // dgvPoints_colValue
+            // 
+            this.dgvPoints_colValue.HeaderText = "Value";
+            this.dgvPoints_colValue.Name = "dgvPoints_colValue";
+            this.dgvPoints_colValue.ReadOnly = true;
+            this.dgvPoints_colValue.Width = 75;
+            // 
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.DataPropertyName = "Id";
@@ -380,13 +387,13 @@
             this.dataGridViewTextBoxColumn5.ReadOnly = true;
             this.dataGridViewTextBoxColumn5.Width = 50;
             // 
-            // dataGridViewTextBoxColumn6
+            // dataGridViewTextBoxColumn17
             // 
-            this.dataGridViewTextBoxColumn6.DataPropertyName = "OutstationID";
-            this.dataGridViewTextBoxColumn6.HeaderText = "OutstationID";
-            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            this.dataGridViewTextBoxColumn6.ReadOnly = true;
-            this.dataGridViewTextBoxColumn6.Width = 50;
+            this.dataGridViewTextBoxColumn17.DataPropertyName = "PointIndex";
+            this.dataGridViewTextBoxColumn17.HeaderText = "PointIndex";
+            this.dataGridViewTextBoxColumn17.Name = "dataGridViewTextBoxColumn17";
+            this.dataGridViewTextBoxColumn17.ReadOnly = true;
+            this.dataGridViewTextBoxColumn17.Width = 75;
             // 
             // dataGridViewTextBoxColumn7
             // 
@@ -395,68 +402,6 @@
             this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
             this.dataGridViewTextBoxColumn7.ReadOnly = true;
             // 
-            // dataGridViewTextBoxColumn8
-            // 
-            this.dataGridViewTextBoxColumn8.DataPropertyName = "ValueDigital";
-            this.dataGridViewTextBoxColumn8.HeaderText = "ValueDigital";
-            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
-            this.dataGridViewTextBoxColumn8.ReadOnly = true;
-            this.dataGridViewTextBoxColumn8.Width = 75;
-            // 
-            // dataGridViewTextBoxColumn9
-            // 
-            this.dataGridViewTextBoxColumn9.DataPropertyName = "ValueInteger";
-            this.dataGridViewTextBoxColumn9.HeaderText = "ValueInteger";
-            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
-            this.dataGridViewTextBoxColumn9.ReadOnly = true;
-            this.dataGridViewTextBoxColumn9.Width = 75;
-            // 
-            // dataGridViewTextBoxColumn10
-            // 
-            this.dataGridViewTextBoxColumn10.DataPropertyName = "ValueFloat";
-            this.dataGridViewTextBoxColumn10.HeaderText = "ValueFloat";
-            this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
-            this.dataGridViewTextBoxColumn10.ReadOnly = true;
-            this.dataGridViewTextBoxColumn10.Width = 75;
-            // 
-            // dataGridViewTextBoxColumn11
-            // 
-            this.dataGridViewTextBoxColumn11.DataPropertyName = "ControlDigital";
-            this.dataGridViewTextBoxColumn11.HeaderText = "ControlDigital";
-            this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
-            this.dataGridViewTextBoxColumn11.ReadOnly = true;
-            this.dataGridViewTextBoxColumn11.Width = 75;
-            // 
-            // dataGridViewTextBoxColumn12
-            // 
-            this.dataGridViewTextBoxColumn12.DataPropertyName = "ControlInteger";
-            this.dataGridViewTextBoxColumn12.HeaderText = "ControlInteger";
-            this.dataGridViewTextBoxColumn12.Name = "dataGridViewTextBoxColumn12";
-            this.dataGridViewTextBoxColumn12.ReadOnly = true;
-            this.dataGridViewTextBoxColumn12.Width = 75;
-            // 
-            // dataGridViewTextBoxColumn13
-            // 
-            this.dataGridViewTextBoxColumn13.DataPropertyName = "ControlFloat";
-            this.dataGridViewTextBoxColumn13.HeaderText = "ControlFloat";
-            this.dataGridViewTextBoxColumn13.Name = "dataGridViewTextBoxColumn13";
-            this.dataGridViewTextBoxColumn13.ReadOnly = true;
-            this.dataGridViewTextBoxColumn13.Width = 75;
-            // 
-            // dataGridViewTextBoxColumn14
-            // 
-            this.dataGridViewTextBoxColumn14.DataPropertyName = "LastUpdate";
-            this.dataGridViewTextBoxColumn14.HeaderText = "LastUpdate";
-            this.dataGridViewTextBoxColumn14.Name = "dataGridViewTextBoxColumn14";
-            this.dataGridViewTextBoxColumn14.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn15
-            // 
-            this.dataGridViewTextBoxColumn15.DataPropertyName = "LastControl";
-            this.dataGridViewTextBoxColumn15.HeaderText = "LastControl";
-            this.dataGridViewTextBoxColumn15.Name = "dataGridViewTextBoxColumn15";
-            this.dataGridViewTextBoxColumn15.ReadOnly = true;
-            // 
             // dataGridViewTextBoxColumn16
             // 
             this.dataGridViewTextBoxColumn16.DataPropertyName = "Status";
@@ -464,13 +409,12 @@
             this.dataGridViewTextBoxColumn16.Name = "dataGridViewTextBoxColumn16";
             this.dataGridViewTextBoxColumn16.ReadOnly = true;
             // 
-            // dataGridViewTextBoxColumn17
+            // dataGridViewTextBoxColumn14
             // 
-            this.dataGridViewTextBoxColumn17.DataPropertyName = "PointIndex";
-            this.dataGridViewTextBoxColumn17.HeaderText = "PointIndex";
-            this.dataGridViewTextBoxColumn17.Name = "dataGridViewTextBoxColumn17";
-            this.dataGridViewTextBoxColumn17.ReadOnly = true;
-            this.dataGridViewTextBoxColumn17.Width = 75;
+            this.dataGridViewTextBoxColumn14.DataPropertyName = "LastUpdate";
+            this.dataGridViewTextBoxColumn14.HeaderText = "LastUpdate";
+            this.dataGridViewTextBoxColumn14.Name = "dataGridViewTextBoxColumn14";
+            this.dataGridViewTextBoxColumn14.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn18
             // 
@@ -501,8 +445,8 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.outstationDataGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pointDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvOutstations)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPoints)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pointBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pointsBindingSource)).EndInit();
@@ -518,7 +462,7 @@
         #endregion
 
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.DataGridView outstationDataGridView;
+        private System.Windows.Forms.DataGridView dgvOutstations;
         private System.Windows.Forms.BindingSource outstationBindingSource;
         private System.Windows.Forms.BindingNavigator outstationBindingNavigator;
         private System.Windows.Forms.ToolStripButton bindingNavigatorAddNewItem;
@@ -533,7 +477,7 @@
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveLastItem;
         private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator2;
         private System.Windows.Forms.ToolStripButton outstationBindingNavigatorSaveItem;
-        private System.Windows.Forms.DataGridView pointDataGridView;
+        private System.Windows.Forms.DataGridView dgvPoints;
         private System.Windows.Forms.BindingSource pointBindingSource;
         private System.Windows.Forms.BindingSource pointsBindingSource;
         private System.Windows.Forms.Timer tmrRefreshPoints;
@@ -541,25 +485,25 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn13;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn14;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn15;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn16;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn17;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn18;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn19;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem demandScanToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fullToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem changeOfStateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem writeControlToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem commandHistoryToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn17;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgvPoints_colValue;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn16;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn14;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn18;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn19;
     }
 }

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSlave", "TestSlave\Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuiLib", "..\Recon2\GuiLib\GuiLib.csproj", "{52BAD89A-782A-47B0-8934-005514E225FF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opendnp3", "..\dnp3\cpp\opendnp3\opendnp3.vcxproj", "{E6404405-BA2D-4F95-A268-D467783D0433}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,7 +56,6 @@ Global
 		{1ADD2ECB-2B24-4162-8965-3EFAA9BB041E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1ADD2ECB-2B24-4162-8965-3EFAA9BB041E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1ADD2ECB-2B24-4162-8965-3EFAA9BB041E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{1ADD2ECB-2B24-4162-8965-3EFAA9BB041E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{1ADD2ECB-2B24-4162-8965-3EFAA9BB041E}.Debug|Win32.ActiveCfg = Debug|Any CPU
 		{1ADD2ECB-2B24-4162-8965-3EFAA9BB041E}.Debug|x64.ActiveCfg = Debug|x64
 		{1ADD2ECB-2B24-4162-8965-3EFAA9BB041E}.Debug|x64.Build.0 = Debug|x64
@@ -101,6 +102,19 @@ Global
 		{52BAD89A-782A-47B0-8934-005514E225FF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{52BAD89A-782A-47B0-8934-005514E225FF}.Release|Win32.ActiveCfg = Release|Any CPU
 		{52BAD89A-782A-47B0-8934-005514E225FF}.Release|x64.ActiveCfg = Release|Any CPU
+		{E6404405-BA2D-4F95-A268-D467783D0433}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{E6404405-BA2D-4F95-A268-D467783D0433}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{E6404405-BA2D-4F95-A268-D467783D0433}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E6404405-BA2D-4F95-A268-D467783D0433}.Debug|Win32.Build.0 = Debug|Win32
+		{E6404405-BA2D-4F95-A268-D467783D0433}.Debug|x64.ActiveCfg = Debug|x64
+		{E6404405-BA2D-4F95-A268-D467783D0433}.Debug|x64.Build.0 = Debug|x64
+		{E6404405-BA2D-4F95-A268-D467783D0433}.Release|Any CPU.ActiveCfg = Release|Win32
+		{E6404405-BA2D-4F95-A268-D467783D0433}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{E6404405-BA2D-4F95-A268-D467783D0433}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{E6404405-BA2D-4F95-A268-D467783D0433}.Release|Win32.ActiveCfg = Release|Win32
+		{E6404405-BA2D-4F95-A268-D467783D0433}.Release|Win32.Build.0 = Release|Win32
+		{E6404405-BA2D-4F95-A268-D467783D0433}.Release|x64.ActiveCfg = Release|x64
+		{E6404405-BA2D-4F95-A268-D467783D0433}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

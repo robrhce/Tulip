@@ -22,11 +22,11 @@ namespace Tulip.Lib
             }
         }
 
-        public static ControlRelayOutputBlock GetCROB(this Command command)
+        public static ControlRelayOutputBlock GetCROB(this Command unatt_command)
         {
-            if (command.Point.Type == POINT_TYPE.DIGITAL_CONTROL && command.DigitalControl.HasValue)
+            if (unatt_command.DigitalControl.HasValue)
             {
-                ControlRelayOutputBlock crob = new ControlRelayOutputBlock(command.DigitalControl.Value, Convert.ToByte(command.DigitalCount), Convert.ToUInt16(command.DigitalOnTime), Convert.ToUInt16(command.DigitalOffTime));
+                ControlRelayOutputBlock crob = new ControlRelayOutputBlock(unatt_command.DigitalControl.Value, Convert.ToByte(unatt_command.DigitalCount), Convert.ToUInt16(unatt_command.DigitalOnTime), Convert.ToUInt16(unatt_command.DigitalOffTime));
                 return crob;
             }
             else

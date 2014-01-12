@@ -53,7 +53,7 @@
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Enabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvcolEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.channelBindingNavigator)).BeginInit();
             this.channelBindingNavigator.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.channelBindingSource)).BeginInit();
@@ -199,7 +199,7 @@
             this.dataGridViewTextBoxColumn4,
             this.dataGridViewTextBoxColumn5,
             this.dataGridViewTextBoxColumn6,
-            this.Enabled});
+            this.dgvcolEnabled});
             this.channelDataGridView.DataSource = this.channelBindingSource;
             this.channelDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.channelDataGridView.Location = new System.Drawing.Point(0, 25);
@@ -246,9 +246,9 @@
             // 
             // Enabled
             // 
-            this.Enabled.DataPropertyName = "Enabled";
-            this.Enabled.HeaderText = "Enabled";
-            this.Enabled.Name = "Enabled";
+            this.dgvcolEnabled.DataPropertyName = "Enabled";
+            this.dgvcolEnabled.HeaderText = "Enabled";
+            this.dgvcolEnabled.Name = "Enabled";
             // 
             // frmChannelSummary
             // 
@@ -296,6 +296,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Enabled;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgvcolEnabled;
     }
 }

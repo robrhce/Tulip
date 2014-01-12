@@ -13,20 +13,23 @@ namespace Tulip
 {
     public partial class frmWriteControl : Form
     {
-        Point _p;
-        TulipEntities _context;
         public Command ReturnValue;
 
-        public frmWriteControl(Point point, TulipEntities context)
+        private Point _point;
+
+        public frmWriteControl(Command previous, Point Point)
         {
             InitializeComponent();
+            _point = Point;
 
-            this._context = context;
 
-            txtOutstationID.Text = point.OutstationID.ToString();
-            txtAddress.Text = point.Outstation.Address.ToString();
-            txtPointType.Text = point.Type.ToString();
-            txtPointIndex.Text = point.PointIndex.ToString();
+            //Point point = previous.Point;
+            Outstation os = _point.Outstation;
+
+            txtOutstationID.Text = _point.OutstationID.ToString();
+            txtAddress.Text = _point.Outstation.Address.ToString();
+            txtPointType.Text = _point.Type.ToString();
+            txtPointIndex.Text = _point.PointIndex.ToString();
 
 
             comboDigOperation.DataSource = Enum.GetValues(typeof(ControlCode))
@@ -36,30 +39,28 @@ namespace Tulip
 
             comboDigOperation.DisplayMember = "Value";
             comboDigOperation.ValueMember = "Key";
-
-            /* query for the most recent command for that point and pre-fill the values (if it exists) */
-
-            Command lastCommand = context.Commands
-                .Where(x => x.PointID == point.Id)
-                .OrderByDescending(d => d.TimestampSent)
-                .FirstOrDefault();
-
-            if (lastCommand != null)
+            
+            
+            if (previous != null)
             {
-                if (point.Type == POINT_TYPE.ANALOG_CONTROL)
+
+                if (_point.Type == POINT_TYPE.ANALOG_CONTROL)
                 {
-                    txtAnalogValue.Text = lastCommand.AnalogValue.ToString();
+                    txtAnalogValue.Text = previous.AnalogValue.ToString();
                 }
-                else if (point.Type == POINT_TYPE.DIGITAL_CONTROL)
+                else if (_point.Type == POINT_TYPE.DIGITAL_CONTROL)
                 {
-                    comboDigOperation.SelectedValue = lastCommand.DigitalControl;
-                    txtDigCount.Text = lastCommand.DigitalCount.ToString();
-                    txtDigOnTime.Text = lastCommand.DigitalOnTime.ToString();
-                    txtDigOffTime.Text = lastCommand.DigitalOffTime.ToString();
+                    comboDigOperation.SelectedValue = previous.DigitalControl;
+                    txtDigCount.Text = previous.DigitalCount.ToString();
+                    txtDigOnTime.Text = previous.DigitalOnTime.ToString();
+                    txtDigOffTime.Text = previous.DigitalOffTime.ToString();
+
+                }
+                else
+                {
+                    throw new ArgumentException();
                 }
             }
-
-            _p = point;
 
         }
 
@@ -67,14 +68,14 @@ namespace Tulip
         {
             Command c = new Command();
 
-            if (_p.Type == POINT_TYPE.DIGITAL_CONTROL)
+            if (_point.Type == POINT_TYPE.DIGITAL_CONTROL)
             {
                 c.DigitalOffTime = Convert.ToInt32(txtDigOffTime.Text);
                 c.DigitalOnTime = Convert.ToInt32(txtDigOnTime.Text);
                 c.DigitalCount = Convert.ToInt32(txtDigCount.Text);
-                c.DigitalControl = (ControlCode) comboDigOperation.SelectedValue;
+                c.DigitalControl = (ControlCode)comboDigOperation.SelectedValue;
             }
-            else if (_p.Type == POINT_TYPE.ANALOG_CONTROL)
+            else if (_point.Type == POINT_TYPE.ANALOG_CONTROL)
             {
                 c.AnalogValue = Convert.ToSingle(txtAnalogValue.Text);
             }

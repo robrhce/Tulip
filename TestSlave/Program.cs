@@ -23,8 +23,9 @@ namespace TestSlave
             config.link.localAddr = 555;
             config.link.remoteAddr = 30001;
 
-
-            var outstation = channel.AddOutstation("outstation", LogLevel.Info, RejectingCommandHandler.Instance, PrintingTimeWriteHandler.Instance, config);
+            //Func<CommandStatus> cs = ()
+            
+            var outstation = channel.AddOutstation("outstation", LogLevel.Info,  new SimpleCommandHandler(new Func<CommandStatus>(() => CommandStatus.SUCCESS)), PrintingTimeWriteHandler.Instance, config);
 
             
             //optionally, add a listener for the stack state

@@ -28,9 +28,10 @@
           <Property Name="DigitalOnTime" Type="int" />
           <Property Name="DigitalOffTime" Type="int" />
           <Property Name="DigitalCount" Type="int" />
-          <Property Name="TimestampSent" Type="int" />
-          <Property Name="TimestampResponse" Type="int" />
+          <Property Name="TimestampSent" Type="datetime" />
+          <Property Name="TimestampResponse" Type="datetime" />
           <Property Name="Response" Type="int" />
+          <Property Name="Result" Type="int" />
         </EntityType>
         <EntityType Name="OutstationChannelMapping">
           <Key>
@@ -217,10 +218,11 @@
           <Property Name="DigitalOnTime" Type="Int32" />
           <Property Name="DigitalOffTime" Type="Int32" />
           <Property Name="DigitalCount" Type="Int32" />
-          <Property Name="TimestampSent" Type="Int32" />
-          <Property Name="TimestampResponse" Type="Int32" />
-          <Property Name="Response" Type="Int32" />
+          <Property Name="TimestampSent" Type="DateTime" />
+          <Property Name="TimestampResponse" Type="DateTime" />
+          <Property Name="Response" Type="TulipModel.CommandStatus" />
           <NavigationProperty Name="Point" Relationship="TulipModel.PointCommand" FromRole="Command" ToRole="Point" />
+          <Property Name="Result" Type="TulipModel.CommandResult" />
         </EntityType>
         <Association Name="PointCommand">
           <End Type="TulipModel.Point" Role="Point" Multiplicity="1" />
@@ -235,6 +237,8 @@
           </ReferentialConstraint>
         </Association>
         <EnumType Name="ControlCode" a:ExternalTypeName="DNP3.Interface.ControlCode" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" UnderlyingType="Byte" />
+        <EnumType Name="CommandResult" a:ExternalTypeName="DNP3.Interface.CommandResult" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+        <EnumType Name="CommandStatus" a:ExternalTypeName="DNP3.Interface.CommandStatus" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" UnderlyingType="Byte" />
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -296,6 +300,7 @@
           <EntitySetMapping Name="Commands">
             <EntityTypeMapping TypeName="TulipModel.Command">
               <MappingFragment StoreEntitySet="Commands">
+                <ScalarProperty Name="Result" ColumnName="Result" />
                 <ScalarProperty Name="Response" ColumnName="Response" />
                 <ScalarProperty Name="TimestampResponse" ColumnName="TimestampResponse" />
                 <ScalarProperty Name="TimestampSent" ColumnName="TimestampSent" />

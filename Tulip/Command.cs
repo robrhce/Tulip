@@ -21,9 +21,10 @@ namespace Tulip
         public Nullable<int> DigitalOnTime { get; set; }
         public Nullable<int> DigitalOffTime { get; set; }
         public Nullable<int> DigitalCount { get; set; }
-        public Nullable<int> TimestampSent { get; set; }
-        public Nullable<int> TimestampResponse { get; set; }
-        public Nullable<int> Response { get; set; }
+        public Nullable<System.DateTime> TimestampSent { get; set; }
+        public Nullable<System.DateTime> TimestampResponse { get; set; }
+        public Nullable<DNP3.Interface.CommandStatus> Response { get; set; }
+        public Nullable<DNP3.Interface.CommandResult> Result { get; set; }
     
         public virtual Point Point { get; set; }
     }

@@ -10,6 +10,7 @@ namespace Tulip.Lib
 {
     public class Manager
     {
+        public TulipEntities TulipContext;
 
         public Action<ChannelWrapper> OnChannelStateChange;
         public Action<OutstationWrapper> OnOutstationStateChange;
@@ -25,6 +26,7 @@ namespace Tulip.Lib
         public Manager(IDNP3Manager DNP3Manager)
         {
             this.DNP3Manager = DNP3Manager;
+            TulipContext = new TulipEntities();
             //this.Channels = new List<ChannelWrapper>();
         }
 
@@ -146,26 +148,47 @@ namespace Tulip.Lib
                 OnOutstationMeasurementReceived();
         }
 
-        public void PostCommand(Command c)
+        public void PostCommand(Point p, Command unatt_c)
         {
-            Outstation os = c.Point.Outstation;
 
-            OutstationWrapper ow = Outstations.Where(x => x.Model.Id == c.Point.OutstationID).SingleOrDefault();
+            
+            OutstationWrapper ow = Outstations.Where(x => x.Model.Id == p.OutstationID).SingleOrDefault();
+            
+
             if (ow != null)
             {
                 if (ow.state == StackState.COMMS_UP)
                 {
-                    if (c.Point.Type == POINT_TYPE.ANALOG_CONTROL)
+                    unatt_c.TimestampSent = DateTime.UtcNow;
+
+
+                    if (p.Type == POINT_TYPE.ANALOG_CONTROL)
                     {
-                        AnalogOutputFloat32 aof = c.GetAnalogOutput();
-                        var future = ow.Master.GetCommandProcessor().DirectOperate(aof, Convert.ToUInt32(c.Point.PointIndex));
-                    }
-                    else if (c.Point.Type == POINT_TYPE.DIGITAL_CONTROL)
-                    {
-                        ControlRelayOutputBlock crob = c.GetCROB();
-                        var future = ow.Master.GetCommandProcessor().DirectOperate(crob, Convert.ToUInt32(c.Point.PointIndex));
-                    }
+                        AnalogOutputFloat32 aof = unatt_c.GetAnalogOutput();
+
+                        var future = ow.Master.GetCommandProcessor().DirectOperate(aof, Convert.ToUInt32(p.PointIndex));
+                        // Use a lambda to curry the command object into the callback as well 
+                        future.Listen((cr) => CommandComplete(unatt_c, cr));
                         
+                    }
+                    else if (p.Type == POINT_TYPE.DIGITAL_CONTROL)
+                    {
+                        ControlRelayOutputBlock crob = unatt_c.GetCROB();
+
+                        var future = ow.Master.GetCommandProcessor().DirectOperate(crob, Convert.ToUInt32(p.PointIndex));
+                        // Use a lambda to curry the command object into the callback as well 
+                        future.Listen((cr) => CommandComplete(unatt_c, cr));
+                    }
+                    else
+                    {
+                        throw new ArgumentException("c.Point.Type != POINT_TYPE.{DIGITAL_CONTROL,ANALOG_CONTROL}");
+                    }
+
+                    // TODO: how to ensure this makes it into the DB before the callback gets fired?
+                    // or does it not matter because the first line pushes it into the model?
+
+                    p.Commands.Add(unatt_c);
+                    TulipContext.SaveChanges();
                 }
                 else
                 {
@@ -174,5 +197,31 @@ namespace Tulip.Lib
             }
         }
 
+        public void CommandComplete(Command c, CommandResponse cr)
+        {
+            c.Response = cr.Status;
+            c.Result = cr.Result;
+            c.TimestampResponse = DateTime.UtcNow;
+
+            TulipContext.SaveChanges();
+            
+            switch (cr.Result)
+            {
+                case CommandResult.RESPONSE_OK:
+                            
+                    break;
+
+                case CommandResult.NO_COMMS:
+                    // set point state
+                    
+                    break;
+
+                case CommandResult.TIMEOUT:
+                    // set point state
+                    break;
+            }
+
+            // TODO: set point state for different results
+        }
     }
 }
