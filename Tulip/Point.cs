@@ -17,6 +17,7 @@ namespace Tulip
         public Point()
         {
             this.Commands = new ObservableListSource<Command>();
+            this.Histories = new ObservableListSource<History>();
         }
     
         public int Id { get; set; }
@@ -32,5 +33,6 @@ namespace Tulip
     
         public virtual Outstation Outstation { get; set; }
         public virtual ObservableListSource<Command> Commands { get; set; }
+        public virtual ObservableListSource<History> Histories { get; set; }
     }
 }

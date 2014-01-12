@@ -161,6 +161,8 @@ namespace Tulip
             frmPS.Show();
         }
 
+        // START HERE - move measurement handler into manager and implement history collection
+
         private void new_measurement_handler()
         {
             DateTime update_time = DateTime.UtcNow;

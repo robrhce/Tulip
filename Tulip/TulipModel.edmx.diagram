@@ -14,6 +14,8 @@
         <AssociationConnector Association="TulipModel.OutstationPoint" />
         <EntityTypeShape EntityType="TulipModel.Command" Width="3.5" PointX="2.875" PointY="6.625" IsExpanded="true" />
         <AssociationConnector Association="TulipModel.PointCommand" />
+        <EntityTypeShape EntityType="TulipModel.History" Width="1.5" PointX="7.875" PointY="9.875" />
+        <AssociationConnector Association="TulipModel.PointHistory" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

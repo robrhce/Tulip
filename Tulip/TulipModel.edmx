@@ -33,6 +33,17 @@
           <Property Name="Response" Type="int" />
           <Property Name="Result" Type="int" />
         </EntityType>
+        <EntityType Name="History">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PointID" Type="int" Nullable="false" />
+          <Property Name="ValueDigital" Type="int" Nullable="false" />
+          <Property Name="ValueAnalog" Type="int" Nullable="false" />
+          <Property Name="Timestamp" Type="datetime" Nullable="false" />
+          <Property Name="Quality" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="OutstationChannelMapping">
           <Key>
             <PropertyRef Name="Id" />
@@ -72,6 +83,7 @@
         <EntityContainer Name="TulipModelStoreContainer">
           <EntitySet Name="Channels" EntityType="Self.Channels" store:Type="Tables" />
           <EntitySet Name="Commands" EntityType="Self.Commands" store:Type="Tables" />
+          <EntitySet Name="History" EntityType="Self.History" store:Type="Tables" />
           <EntitySet Name="OutstationChannelMapping" EntityType="Self.OutstationChannelMapping" store:Type="Tables" />
           <EntitySet Name="Outstations" EntityType="Self.Outstations" store:Type="Tables" />
           <EntitySet Name="Points" EntityType="Self.Points" store:Type="Tables" />
@@ -101,6 +113,11 @@
           <AssociationSet Name="PointCommand" Association="TulipModel.PointCommand">
             <End Role="Point" EntitySet="Points" />
             <End Role="Command" EntitySet="Commands" />
+          </AssociationSet>
+          <EntitySet Name="Histories" EntityType="TulipModel.History" />
+          <AssociationSet Name="PointHistory" Association="TulipModel.PointHistory">
+            <End Role="Point" EntitySet="Points" />
+            <End Role="History" EntitySet="Histories" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Outstation">
@@ -181,6 +198,7 @@
           <Property Name="Quality" Type="Int32" />
           <NavigationProperty Name="Commands" Relationship="TulipModel.PointCommand" FromRole="Point" ToRole="Command" />
           <Property Name="ValueAnalog" Type="Single" />
+          <NavigationProperty Name="Histories" Relationship="TulipModel.PointHistory" FromRole="Point" ToRole="History" />
         </EntityType>
         <Association Name="OutstationPoint">
           <End Type="TulipModel.Outstation" Role="Outstation" Multiplicity="1" />
@@ -218,8 +236,8 @@
           <Property Name="DigitalOnTime" Type="Int32" />
           <Property Name="DigitalOffTime" Type="Int32" />
           <Property Name="DigitalCount" Type="Int32" />
-          <Property Name="TimestampSent" Type="DateTime" />
-          <Property Name="TimestampResponse" Type="DateTime" />
+          <Property Name="TimestampSent" Type="DateTime" Precision="3" />
+          <Property Name="TimestampResponse" Type="DateTime" Precision="3" />
           <Property Name="Response" Type="TulipModel.CommandStatus" />
           <NavigationProperty Name="Point" Relationship="TulipModel.PointCommand" FromRole="Command" ToRole="Point" />
           <Property Name="Result" Type="TulipModel.CommandResult" />
@@ -239,6 +257,30 @@
         <EnumType Name="ControlCode" a:ExternalTypeName="DNP3.Interface.ControlCode" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" UnderlyingType="Byte" />
         <EnumType Name="CommandResult" a:ExternalTypeName="DNP3.Interface.CommandResult" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
         <EnumType Name="CommandStatus" a:ExternalTypeName="DNP3.Interface.CommandStatus" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" UnderlyingType="Byte" />
+        <EntityType Name="History">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PointID" Type="Int32" Nullable="false" />
+          <Property Name="ValueDigital" Type="Int32" Nullable="false" />
+          <Property Name="ValueAnalog" Type="Int32" Nullable="false" />
+          <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Quality" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Point" Relationship="TulipModel.PointHistory" FromRole="History" ToRole="Point" />
+        </EntityType>
+        <Association Name="PointHistory">
+          <End Type="TulipModel.Point" Role="Point" Multiplicity="1" />
+          <End Type="TulipModel.History" Role="History" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Point">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="History">
+              <PropertyRef Name="PointID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -309,6 +351,18 @@
                 <ScalarProperty Name="DigitalOnTime" ColumnName="DigitalOnTime" />
                 <ScalarProperty Name="DigitalControl" ColumnName="DigitalControl" />
                 <ScalarProperty Name="AnalogValue" ColumnName="AnalogValue" />
+                <ScalarProperty Name="PointID" ColumnName="PointID" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Histories">
+            <EntityTypeMapping TypeName="TulipModel.History">
+              <MappingFragment StoreEntitySet="History">
+                <ScalarProperty Name="Quality" ColumnName="Quality" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="ValueAnalog" ColumnName="ValueAnalog" />
+                <ScalarProperty Name="ValueDigital" ColumnName="ValueDigital" />
                 <ScalarProperty Name="PointID" ColumnName="PointID" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
