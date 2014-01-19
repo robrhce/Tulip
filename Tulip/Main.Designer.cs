@@ -51,25 +51,17 @@
             this.textColumn5 = new XPTable.Models.TextColumn();
             this.textColumn6 = new XPTable.Models.TextColumn();
             this.tblOutstationStatus_Model = new XPTable.Models.TableModel();
-            this.button4 = new System.Windows.Forms.Button();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripDropDownButton();
             this.channelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.outstationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
-            this.pointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
@@ -93,18 +85,8 @@
             // 
             this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
             this.splitContainer1.Panel1.Padding = new System.Windows.Forms.Padding(6);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.button4);
-            this.splitContainer1.Panel2.Controls.Add(this.radioButton2);
-            this.splitContainer1.Panel2.Controls.Add(this.radioButton1);
-            this.splitContainer1.Panel2.Controls.Add(this.textBox1);
-            this.splitContainer1.Panel2.Controls.Add(this.button3);
-            this.splitContainer1.Panel2.Controls.Add(this.button2);
-            this.splitContainer1.Panel2.Controls.Add(this.button1);
             this.splitContainer1.Size = new System.Drawing.Size(829, 449);
-            this.splitContainer1.SplitterDistance = 616;
+            this.splitContainer1.SplitterDistance = 758;
             this.splitContainer1.TabIndex = 1;
             // 
             // splitContainer2
@@ -121,7 +103,7 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.groupBox2);
-            this.splitContainer2.Size = new System.Drawing.Size(604, 437);
+            this.splitContainer2.Size = new System.Drawing.Size(746, 437);
             this.splitContainer2.SplitterDistance = 201;
             this.splitContainer2.TabIndex = 1;
             // 
@@ -133,7 +115,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(20);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(10);
-            this.groupBox1.Size = new System.Drawing.Size(604, 201);
+            this.groupBox1.Size = new System.Drawing.Size(746, 201);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Channels";
@@ -154,7 +136,7 @@
             this.tblChannelStatus.Location = new System.Drawing.Point(10, 23);
             this.tblChannelStatus.Name = "tblChannelStatus";
             this.tblChannelStatus.ShowSelectionRectangle = false;
-            this.tblChannelStatus.Size = new System.Drawing.Size(584, 168);
+            this.tblChannelStatus.Size = new System.Drawing.Size(726, 168);
             this.tblChannelStatus.TabIndex = 0;
             this.tblChannelStatus.TableModel = this.tblChannelStatus_Model;
             this.tblChannelStatus.Text = "table1";
@@ -207,7 +189,7 @@
             this.groupBox2.Margin = new System.Windows.Forms.Padding(20);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(10);
-            this.groupBox2.Size = new System.Drawing.Size(604, 232);
+            this.groupBox2.Size = new System.Drawing.Size(746, 232);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Outstations";
@@ -226,7 +208,7 @@
             this.tblOutstationStatus.HeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tblOutstationStatus.Location = new System.Drawing.Point(10, 23);
             this.tblOutstationStatus.Name = "tblOutstationStatus";
-            this.tblOutstationStatus.Size = new System.Drawing.Size(584, 199);
+            this.tblOutstationStatus.Size = new System.Drawing.Size(726, 199);
             this.tblOutstationStatus.TabIndex = 0;
             this.tblOutstationStatus.TableModel = this.tblOutstationStatus_Model;
             this.tblOutstationStatus.Text = "table1";
@@ -266,76 +248,6 @@
             // tblOutstationStatus_Model
             // 
             this.tblOutstationStatus_Model.RowHeight = 30;
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(50, 345);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(89, 32);
-            this.button4.TabIndex = 6;
-            this.button4.Text = "Write Bool";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // radioButton2
-            // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(112, 311);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(69, 17);
-            this.radioButton2.TabIndex = 5;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Latch Off";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Checked = true;
-            this.radioButton1.Location = new System.Drawing.Point(20, 311);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(69, 17);
-            this.radioButton1.TabIndex = 4;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Latch On";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(29, 272);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(122, 20);
-            this.textBox1.TabIndex = 3;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(50, 199);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(89, 32);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "Write Int";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(81, 121);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(89, 32);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "COS Poll";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(81, 72);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(89, 32);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Integ Poll";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // toolStrip1
             // 
@@ -388,16 +300,23 @@
             // channelsToolStripMenuItem
             // 
             this.channelsToolStripMenuItem.Name = "channelsToolStripMenuItem";
-            this.channelsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.channelsToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.channelsToolStripMenuItem.Text = "Channels";
             this.channelsToolStripMenuItem.Click += new System.EventHandler(this.channelsToolStripMenuItem_Click);
             // 
             // outstationsToolStripMenuItem
             // 
             this.outstationsToolStripMenuItem.Name = "outstationsToolStripMenuItem";
-            this.outstationsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.outstationsToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.outstationsToolStripMenuItem.Text = "Outstations";
             this.outstationsToolStripMenuItem.Click += new System.EventHandler(this.outstationsToolStripMenuItem_Click);
+            // 
+            // pointsToolStripMenuItem
+            // 
+            this.pointsToolStripMenuItem.Name = "pointsToolStripMenuItem";
+            this.pointsToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.pointsToolStripMenuItem.Text = "Points";
+            this.pointsToolStripMenuItem.Click += new System.EventHandler(this.pointsToolStripMenuItem_Click);
             // 
             // toolStripButton4
             // 
@@ -419,13 +338,6 @@
             this.toolStripButton5.Text = "Point Summary";
             this.toolStripButton5.Click += new System.EventHandler(this.toolStripButton5_Click);
             // 
-            // pointsToolStripMenuItem
-            // 
-            this.pointsToolStripMenuItem.Name = "pointsToolStripMenuItem";
-            this.pointsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.pointsToolStripMenuItem.Text = "Points";
-            this.pointsToolStripMenuItem.Click += new System.EventHandler(this.pointsToolStripMenuItem_Click);
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -436,8 +348,6 @@
             this.Name = "Main";
             this.Text = "Main";
             this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
@@ -458,13 +368,6 @@
         #endregion
 
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button4;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripButton toolStripButton2;

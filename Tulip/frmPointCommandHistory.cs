@@ -33,7 +33,7 @@ namespace Tulip
         private void frmPointCommandHistory_Load(object sender, EventArgs e)
         {
 
-            var points = _manager.TulipContext.Points.Where(X => X.OutstationID == _o.Id && (X.Type == POINT_TYPE.DIGITAL_CONTROL || X.Type == POINT_TYPE.ANALOG_CONTROL));
+            var points = _manager.TulipContext.Points.Where(X => X.OutstationID == _o.Id && (X.Type == BasicType.DIGITAL_CONTROL || X.Type == BasicType.ANALOG_CONTROL));
             this.pointBindingSource.DataSource = new BindingList<Point>(points.ToList());//.ToBindingList();// _manager.TulipContext.Points.Local.ToBindingList();
             /*
             dgvCommand_colResponse.DataSource = Enum.GetValues(typeof(CommandStatus))
@@ -86,7 +86,7 @@ namespace Tulip
 
                     switch (p.Type)
                     {
-                        case POINT_TYPE.ANALOG_CONTROL:
+                        case BasicType.ANALOG_CONTROL:
                             if (c.AnalogValue.HasValue)
                                 e.Value = c.AnalogValue.ToString();
                             else
@@ -94,7 +94,7 @@ namespace Tulip
 
                             break;
 
-                        case POINT_TYPE.DIGITAL_CONTROL:
+                        case BasicType.DIGITAL_CONTROL:
                             if (c.DigitalControl.HasValue)
                                 e.Value = c.DigitalControl.ToString();
                             else

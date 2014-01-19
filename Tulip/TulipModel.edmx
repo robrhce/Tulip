@@ -39,10 +39,10 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PointID" Type="int" Nullable="false" />
-          <Property Name="ValueDigital" Type="int" Nullable="false" />
-          <Property Name="ValueAnalog" Type="int" Nullable="false" />
+          <Property Name="ValueDigital" Type="int" />
+          <Property Name="ValueAnalog" Type="float" />
           <Property Name="Timestamp" Type="datetime" Nullable="false" />
-          <Property Name="Quality" Type="int" Nullable="false" />
+          <Property Name="Quality" Type="int" />
         </EntityType>
         <EntityType Name="OutstationChannelMapping">
           <Key>
@@ -188,7 +188,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="OutstationID" Type="Int32" Nullable="false" />
-          <Property Name="Type" Type="TulipModel.POINT_TYPE" Nullable="false" />
+          <Property Name="Type" Type="TulipModel.BasicType" Nullable="false" />
           <Property Name="ValueDigital" Type="Int32" />
           <Property Name="LastUpdate" Type="DateTime" Precision="3" />
           <Property Name="Status" Type="TulipModel.POINT_STATUS" Nullable="false" />
@@ -212,12 +212,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EnumType Name="POINT_TYPE">
-          <Member Name="DIGITAL_STATUS" Value="0" />
-          <Member Name="DIGITAL_CONTROL" Value="1" />
-          <Member Name="ANALOG_STATUS" Value="2" />
-          <Member Name="ANALOG_CONTROL" Value="3" />
-        </EnumType>
+        <EnumType Name="BasicType" a:ExternalTypeName="DNP3.Interface.BasicType" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration">
+          </EnumType>
         <EnumType Name="POINT_STATUS">
           <Member Name="UNINITIALISED" Value="0" />
           <Member Name="DETECTED" Value="1" />
@@ -263,10 +259,10 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PointID" Type="Int32" Nullable="false" />
-          <Property Name="ValueDigital" Type="Int32" Nullable="false" />
-          <Property Name="ValueAnalog" Type="Int32" Nullable="false" />
+          <Property Name="ValueDigital" Type="Int32" Nullable="true" />
+          <Property Name="ValueAnalog" Type="Single" Nullable="true" />
           <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Quality" Type="Int32" Nullable="false" />
+          <Property Name="Quality" Type="Int32" Nullable="true" />
           <NavigationProperty Name="Point" Relationship="TulipModel.PointHistory" FromRole="History" ToRole="Point" />
         </EntityType>
         <Association Name="PointHistory">

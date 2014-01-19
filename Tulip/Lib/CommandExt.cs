@@ -11,7 +11,7 @@ namespace Tulip.Lib
     {
         public static AnalogOutputFloat32 GetAnalogOutput(this Command command)
         {
-            if (command.Point.Type == POINT_TYPE.ANALOG_CONTROL && command.AnalogValue.HasValue)
+            if (command.Point.Type == BasicType.ANALOG_CONTROL && command.AnalogValue.HasValue)
             {
                 AnalogOutputFloat32 aof = new AnalogOutputFloat32(Convert.ToSingle(command.AnalogValue));
                 return aof;

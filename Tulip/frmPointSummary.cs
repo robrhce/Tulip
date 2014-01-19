@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.Entity;
+using DNP3.Interface;
 
 namespace Tulip
 {
@@ -47,8 +48,17 @@ namespace Tulip
                 if (dgvPoints.SelectedRows[0].DataBoundItem is Point)
                 {
                     Point P = (Point)dgvPoints.SelectedRows[0].DataBoundItem;
-                    if (P.Type == POINT_TYPE.DIGITAL_CONTROL || P.Type == POINT_TYPE.ANALOG_CONTROL)
+                    if (P.Type == BasicType.DIGITAL_CONTROL || P.Type == BasicType.ANALOG_CONTROL)
+                    {
                         writeControlToolStripMenuItem.Enabled = true;
+                        pointHistoryToolStripMenuItem.Enabled = false;
+                    }
+                    else
+                    {
+                        writeControlToolStripMenuItem.Enabled = false;
+                        pointHistoryToolStripMenuItem.Enabled = true;
+                    }
+
                 }
             }
 
@@ -61,7 +71,7 @@ namespace Tulip
                 if (dgvPoints.SelectedRows[0].DataBoundItem is Point)
                 {
                     Point P = (Point)dgvPoints.SelectedRows[0].DataBoundItem;
-                    if (P.Type == POINT_TYPE.DIGITAL_CONTROL || P.Type == POINT_TYPE.ANALOG_CONTROL)
+                    if (P.Type == BasicType.DIGITAL_CONTROL || P.Type == BasicType.ANALOG_CONTROL)
                     {
                         /* query for the most recent command for that point and pre-fill the values (if it exists) */
                         Command lastCommand = _manager.TulipContext.Commands
@@ -105,7 +115,7 @@ namespace Tulip
                 if (dgvPoints.SelectedRows[0].DataBoundItem is Point)
                 {
                     Point P = (Point)dgvPoints.SelectedRows[0].DataBoundItem;
-                    if (P.Type == POINT_TYPE.DIGITAL_CONTROL || P.Type == POINT_TYPE.ANALOG_CONTROL)
+                    if (P.Type == BasicType.DIGITAL_CONTROL || P.Type == BasicType.ANALOG_CONTROL)
                     {
                         new frmPointCommandHistory(_manager, P.Outstation, P).Show();
                     }
@@ -124,7 +134,7 @@ namespace Tulip
 
             switch (p.Type)
             {
-                case POINT_TYPE.ANALOG_STATUS:
+                case BasicType.ANALOG_STATUS:
                     if (p.ValueAnalog.HasValue)
                         dgvPoints["dgvPoints_colValue", e.RowIndex].Value = p.ValueAnalog.ToString();
                     else
@@ -132,7 +142,7 @@ namespace Tulip
 
                     break;
 
-                case POINT_TYPE.DIGITAL_STATUS:
+                case BasicType.DIGITAL_STATUS:
                     if (p.ValueDigital.HasValue)
                         dgvPoints["dgvPoints_colValue", e.RowIndex].Value = p.ValueDigital > 0 ? "ON" : "OFF";
                     else
@@ -143,6 +153,21 @@ namespace Tulip
                 default:
 
                     break;
+            }
+        }
+
+        private void pointHistoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dgvPoints.SelectedRows.Count == 1)
+            {
+                if (dgvPoints.SelectedRows[0].DataBoundItem is Point)
+                {
+                    Point P = (Point)dgvPoints.SelectedRows[0].DataBoundItem;
+                    if (P.Type == BasicType.DIGITAL_STATUS || P.Type == BasicType.ANALOG_STATUS)
+                    {
+                        new frmPointHistory(_manager, P.Outstation, P).Show();
+                    }
+                }
             }
         }
 

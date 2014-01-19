@@ -15,11 +15,11 @@ namespace Tulip.Lib
         public StackState state;
 
         public Action OnStateChanged;
-        public Action OnMeasurementsReceived;
+        public Action<OutstationWrapper, IMeasurementUpdate> OnMeasurementsReceived;
 
         // TODO: poor implementation
-        public List<IndexedValue<Analog>> NewAnalogs = new List<IndexedValue<Analog>>();
-        public List<IndexedValue<Binary>> NewBinaries = new List<IndexedValue<Binary>>();
+        //public List<IndexedValue<Analog>> NewAnalogs = new List<IndexedValue<Analog>>();
+        //public List<IndexedValue<Binary>> NewBinaries = new List<IndexedValue<Binary>>();
 
         public OutstationWrapper(Outstation Model, IMaster Master)
         {
@@ -42,7 +42,7 @@ namespace Tulip.Lib
 
         public void Load(IMeasurementUpdate update)
         {
-            // TODO: this is not very async
+            /*
             foreach (IndexedValue<Binary> v in update.BinaryUpdates)
             {
                 NewBinaries.Add(v);
@@ -52,10 +52,10 @@ namespace Tulip.Lib
             {
                 NewAnalogs.Add(v);
                 //Console.WriteLine("value: " + v.value.value + " index: " + v.index);               
-            }
+            }*/
             
             if (OnMeasurementsReceived != null)
-                OnMeasurementsReceived();
+                OnMeasurementsReceived(this, update);
             /*
              foreach (var v in update.CounterUpdates) Console.WriteLine("value: " + v.value.value + " index: " + v.index);
              foreach (var v in update.ControlStatusUpdates) Console.WriteLine("value: " + v.value.value + " index: " + v.index);

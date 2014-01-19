@@ -16,10 +16,10 @@ namespace Tulip
     {
         public int Id { get; set; }
         public int PointID { get; set; }
-        public int ValueDigital { get; set; }
-        public int ValueAnalog { get; set; }
+        public Nullable<int> ValueDigital { get; set; }
+        public Nullable<float> ValueAnalog { get; set; }
         public System.DateTime Timestamp { get; set; }
-        public int Quality { get; set; }
+        public Nullable<int> Quality { get; set; }
     
         public virtual Point Point { get; set; }
     }

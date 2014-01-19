@@ -22,7 +22,7 @@ namespace Tulip
     
         public int Id { get; set; }
         public int OutstationID { get; set; }
-        public POINT_TYPE Type { get; set; }
+        public DNP3.Interface.BasicType Type { get; set; }
         public Nullable<int> ValueDigital { get; set; }
         public Nullable<System.DateTime> LastUpdate { get; set; }
         public POINT_STATUS Status { get; set; }

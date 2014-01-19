@@ -109,6 +109,12 @@
     <Compile Include="frmPointConfiguration.Designer.cs">
       <DependentUpon>frmPointConfiguration.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmPointHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPointHistory.Designer.cs">
+      <DependentUpon>frmPointHistory.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmPointSummary.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -173,9 +179,6 @@
     <Compile Include="POINT_STATUS.cs">
       <DependentUpon>TulipModelGen.tt</DependentUpon>
     </Compile>
-    <Compile Include="POINT_TYPE.cs">
-      <DependentUpon>TulipModelGen.tt</DependentUpon>
-    </Compile>
     <Compile Include="TulipModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -199,6 +202,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmPointConfiguration.resx">
       <DependentUpon>frmPointConfiguration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPointHistory.resx">
+      <DependentUpon>frmPointHistory.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmPointSummary.resx">
       <DependentUpon>frmPointSummary.cs</DependentUpon>

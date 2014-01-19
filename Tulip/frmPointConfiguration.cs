@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.Entity;
+using DNP3.Interface;
 
 namespace Tulip
 {
@@ -19,14 +20,14 @@ namespace Tulip
             InitializeComponent();
             this._context = Context;
 
-            dataGridViewTextBoxColumn7.DataSource = Enum.GetValues(typeof(POINT_TYPE))
-    .Cast<POINT_TYPE>()
-    .Select(p => new { Key = (POINT_TYPE)p, Value = p.ToString() })
+            dataGridViewTextBoxColumn7.DataSource = Enum.GetValues(typeof(BasicType))
+    .Cast<BasicType>()
+    .Select(p => new { Key = (BasicType)p, Value = p.ToString() })
     .ToList();
 
             dataGridViewTextBoxColumn7.DisplayMember = "Value";
             dataGridViewTextBoxColumn7.ValueMember = "Key";
-            dataGridViewTextBoxColumn7.ValueType = typeof(POINT_TYPE);
+            dataGridViewTextBoxColumn7.ValueType = typeof(BasicType);
 
 
         }

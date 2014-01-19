@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPointCommandHistory));
             this.pointBindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
             this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
+            this.pointBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
             this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
@@ -44,14 +45,11 @@
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.pointBindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
             this.dgvPoints = new System.Windows.Forms.DataGridView();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.dgvCommands = new System.Windows.Forms.DataGridView();
-            this.commandsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pointBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.commandBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.dgvCommands = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvCommands_colValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -61,8 +59,11 @@
             this.dataGridViewTextBoxColumn20 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvCommand_colResponse = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvCommand_colResult = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.commandsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.commandBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pointBindingNavigator)).BeginInit();
             this.pointBindingNavigator.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pointBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPoints)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -70,7 +71,6 @@
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCommands)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.commandsBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pointBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.commandBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -100,7 +100,7 @@
             this.pointBindingNavigator.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.pointBindingNavigator.Name = "pointBindingNavigator";
             this.pointBindingNavigator.PositionItem = this.bindingNavigatorPositionItem;
-            this.pointBindingNavigator.Size = new System.Drawing.Size(1340, 25);
+            this.pointBindingNavigator.Size = new System.Drawing.Size(1276, 25);
             this.pointBindingNavigator.TabIndex = 0;
             this.pointBindingNavigator.Text = "bindingNavigator1";
             // 
@@ -112,6 +112,10 @@
             this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
             this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
             this.bindingNavigatorAddNewItem.Text = "Add new";
+            // 
+            // pointBindingSource
+            // 
+            this.pointBindingSource.DataSource = typeof(Tulip.Point);
             // 
             // bindingNavigatorCountItem
             // 
@@ -219,6 +223,27 @@
             this.dgvPoints.TabIndex = 1;
             this.dgvPoints.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.pointDataGridView_DataBindingComplete);
             // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "Id";
+            this.dataGridViewTextBoxColumn1.HeaderText = "Id";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.DataPropertyName = "Type";
+            this.dataGridViewTextBoxColumn3.HeaderText = "Type";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn7
+            // 
+            this.dataGridViewTextBoxColumn7.DataPropertyName = "PointIndex";
+            this.dataGridViewTextBoxColumn7.HeaderText = "PointIndex";
+            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            this.dataGridViewTextBoxColumn7.ReadOnly = true;
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -234,7 +259,7 @@
             // 
             this.splitContainer1.Panel2.AutoScroll = true;
             this.splitContainer1.Panel2.Controls.Add(this.dgvCommands);
-            this.splitContainer1.Size = new System.Drawing.Size(1340, 650);
+            this.splitContainer1.Size = new System.Drawing.Size(1276, 650);
             this.splitContainer1.SplitterDistance = 347;
             this.splitContainer1.TabIndex = 2;
             // 
@@ -260,44 +285,10 @@
             this.dgvCommands.Name = "dgvCommands";
             this.dgvCommands.ReadOnly = true;
             this.dgvCommands.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCommands.Size = new System.Drawing.Size(989, 650);
+            this.dgvCommands.Size = new System.Drawing.Size(925, 650);
             this.dgvCommands.TabIndex = 0;
             this.dgvCommands.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCommands_CellContentClick);
             this.dgvCommands.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.commandDataGridView_CellFormatting);
-            // 
-            // commandsBindingSource
-            // 
-            this.commandsBindingSource.DataMember = "Commands";
-            this.commandsBindingSource.DataSource = this.pointBindingSource;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "Id";
-            this.dataGridViewTextBoxColumn1.HeaderText = "Id";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.DataPropertyName = "Type";
-            this.dataGridViewTextBoxColumn3.HeaderText = "Type";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn7
-            // 
-            this.dataGridViewTextBoxColumn7.DataPropertyName = "PointIndex";
-            this.dataGridViewTextBoxColumn7.HeaderText = "PointIndex";
-            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
-            this.dataGridViewTextBoxColumn7.ReadOnly = true;
-            // 
-            // pointBindingSource
-            // 
-            this.pointBindingSource.DataSource = typeof(Tulip.Point);
-            // 
-            // commandBindingSource
-            // 
-            this.commandBindingSource.DataSource = typeof(Tulip.Command);
             // 
             // dataGridViewTextBoxColumn12
             // 
@@ -371,11 +362,20 @@
             this.dgvCommand_colResult.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvCommand_colResult.Width = 120;
             // 
+            // commandsBindingSource
+            // 
+            this.commandsBindingSource.DataMember = "Commands";
+            this.commandsBindingSource.DataSource = this.pointBindingSource;
+            // 
+            // commandBindingSource
+            // 
+            this.commandBindingSource.DataSource = typeof(Tulip.Command);
+            // 
             // frmPointCommandHistory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1340, 675);
+            this.ClientSize = new System.Drawing.Size(1276, 675);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.pointBindingNavigator);
             this.Name = "frmPointCommandHistory";
@@ -384,6 +384,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pointBindingNavigator)).EndInit();
             this.pointBindingNavigator.ResumeLayout(false);
             this.pointBindingNavigator.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pointBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPoints)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -391,7 +392,6 @@
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCommands)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.commandsBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pointBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.commandBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

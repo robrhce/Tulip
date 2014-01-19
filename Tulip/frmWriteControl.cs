@@ -44,11 +44,11 @@ namespace Tulip
             if (previous != null)
             {
 
-                if (_point.Type == POINT_TYPE.ANALOG_CONTROL)
+                if (_point.Type == BasicType.ANALOG_CONTROL)
                 {
                     txtAnalogValue.Text = previous.AnalogValue.ToString();
                 }
-                else if (_point.Type == POINT_TYPE.DIGITAL_CONTROL)
+                else if (_point.Type == BasicType.DIGITAL_CONTROL)
                 {
                     comboDigOperation.SelectedValue = previous.DigitalControl;
                     txtDigCount.Text = previous.DigitalCount.ToString();
@@ -68,14 +68,14 @@ namespace Tulip
         {
             Command c = new Command();
 
-            if (_point.Type == POINT_TYPE.DIGITAL_CONTROL)
+            if (_point.Type == BasicType.DIGITAL_CONTROL)
             {
                 c.DigitalOffTime = Convert.ToInt32(txtDigOffTime.Text);
                 c.DigitalOnTime = Convert.ToInt32(txtDigOnTime.Text);
                 c.DigitalCount = Convert.ToInt32(txtDigCount.Text);
                 c.DigitalControl = (ControlCode)comboDigOperation.SelectedValue;
             }
-            else if (_point.Type == POINT_TYPE.ANALOG_CONTROL)
+            else if (_point.Type == BasicType.ANALOG_CONTROL)
             {
                 c.AnalogValue = Convert.ToSingle(txtAnalogValue.Text);
             }

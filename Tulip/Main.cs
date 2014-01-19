@@ -49,6 +49,7 @@ namespace Tulip
             Manager.TulipContext.Channels.Load();
             Manager.TulipContext.Outstations.Load();
             Manager.TulipContext.Points.Load();
+            
 
         }
 
@@ -56,21 +57,6 @@ namespace Tulip
         {
             master.GetIntegrityScan().Demand();
             //future.Listen((result) => Console.WriteLine("Result: " + result));
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            bool State = radioButton1.Checked;
-            UInt16 point = Convert.ToUInt16(textBox1.Text);
-            ControlRelayOutputBlock crob;
-            
-            if (State)
-                crob = new ControlRelayOutputBlock(ControlCode.LATCH_ON, 1, 0, 0);
-            else
-                crob = new ControlRelayOutputBlock(ControlCode.LATCH_OFF, 1, 0, 0);
-
-            var future = master.GetCommandProcessor().DirectOperate(crob, point);
-            future.Listen((result) => Console.WriteLine("Result: " + result));
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -150,7 +136,8 @@ namespace Tulip
             Manager.OnOutstationStateChange += this.refresh_outstations;
             refresh_outstations2();
 
-            Manager.OnOutstationMeasurementReceived += this.new_measurement_handler;
+            // TODO: re-instate this to allow refreshing of datatables?
+            //Manager.OnOutstationMeasurementReceived += this.new_measurement_handler;
 
             
         }
@@ -161,127 +148,7 @@ namespace Tulip
             frmPS.Show();
         }
 
-        // START HERE - move measurement handler into manager and implement history collection
 
-        private void new_measurement_handler()
-        {
-            DateTime update_time = DateTime.UtcNow;
-            foreach (OutstationWrapper ow in Manager.Outstations)
-            {
-                if (ow.NewAnalogs.Count > 0)
-                {
-                    foreach (IndexedValue<Analog> ana in ow.NewAnalogs)
-                    {
-                        update_analog(ow, ana, update_time);
-                    }
-                    ow.NewAnalogs.Clear();
-                }
-                if (ow.NewBinaries.Count > 0)
-                {
-                    foreach (IndexedValue<Binary> bin in ow.NewBinaries)
-                    {
-                        update_binaries(ow, bin, update_time);
-                    }
-                    ow.NewBinaries.Clear();
-                }
-            }
-            Manager.TulipContext.SaveChanges();
-        }
-
-        private void update_analog(OutstationWrapper ow, IndexedValue<Analog> ana, DateTime update_time)
-        {
-            /* Check if the point currently exists in the points table */
-            // TODO historical logging
-            Point p = Manager.TulipContext.Points.SingleOrDefault(x => x.OutstationID == ow.Model.Id && x.PointIndex == ana.index && x.Type == POINT_TYPE.ANALOG_STATUS);
-            DateTime epoch = new DateTime(1970, 1, 1);
-            DateTime timestamp;
-
-            if (ana.value.time == epoch)
-            {
-                timestamp = update_time;
-            }
-            else
-            {
-                timestamp = ana.value.time;
-            }
-
-            if (p == null)
-            {
-                p = new Point();
-                p.OutstationID = ow.Model.Id;
-                p.Type = POINT_TYPE.ANALOG_STATUS;
-                p.PointIndex = (int) ana.index;
-                p.ValueAnalog = Convert.ToSingle(ana.value.value);
-                p.Status = POINT_STATUS.DETECTED;
-                p.LastUpdate = update_time;
-                p.LastMeasurement = timestamp;
-                p.Quality = ana.value.quality;
-                Manager.TulipContext.Points.Add(p);
-            }
-            else
-            {
-                // if a series of measurements come through, only keep the most recent
-                if (timestamp > p.LastMeasurement)
-                {
-                    p.ValueAnalog = Convert.ToSingle(ana.value.value);
-                    //p.Status = POINT_STATUS.
-                    p.LastMeasurement = timestamp;
-                    p.Quality = ana.value.quality;
-                    p.LastUpdate = update_time;
-                }
-            }
-            // (cw = Channels.First(x => x.Model.Id == m.ChannelID)
-            
-        }
-
-        private void update_binaries(OutstationWrapper ow, IndexedValue<Binary> bin, DateTime update_time)
-        {
-            /* Check if the point currently exists in the points table */
-            // TODO historical logging
-            Point p = Manager.TulipContext.Points.SingleOrDefault(x => x.OutstationID == ow.Model.Id && x.PointIndex == bin.index && x.Type == POINT_TYPE.DIGITAL_STATUS);
-            DateTime epoch = new DateTime(1970, 1, 1);
-            DateTime timestamp;
-
-            if (bin.value.time == epoch)
-            {
-                timestamp = update_time;
-            }
-            else
-            {
-                timestamp = bin.value.time;
-            }
-
-            if (p == null)
-            {
-                p = new Point();
-                p.OutstationID = ow.Model.Id;
-                p.Type = POINT_TYPE.DIGITAL_STATUS;
-                p.PointIndex = (int)bin.index;
-                p.ValueDigital = Convert.ToInt32(bin.value.value);
-                p.Status = POINT_STATUS.DETECTED;
-                
-                p.LastUpdate = update_time;
-                p.LastMeasurement = timestamp;
-
-                
-                
-                p.Quality = bin.value.quality;
-                Manager.TulipContext.Points.Add(p);
-            }
-            else
-            {
-                // if a series of measurements come through, only keep the most recent
-                if (timestamp > p.LastMeasurement)
-                {
-                    p.ValueDigital = Convert.ToInt32(bin.value.value);
-                    //p.Status = POINT_STATUS.
-                    p.LastMeasurement = timestamp;
-                    p.Quality = bin.value.quality;
-                    p.LastUpdate = update_time;
-                }
-            }
-            
-        }
 
         private void channelsToolStripMenuItem_Click(object sender, EventArgs e)
         {
